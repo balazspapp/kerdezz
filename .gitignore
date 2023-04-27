@@ -29,14 +29,15 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+/kerdezz-frontend/.angular/cache
+/kerdezz-frontend/.sass-cache/
+/kerdezz-frontend/connect.lock
+/kerdezz-frontend/coverage
+/kerdezz-frontend/libpeerconnection.log
+kerdezz-frontend/testem.log
+/kerdezz-frontend/typings
 
 # System files
 .DS_Store
 Thumbs.db
+/kerdezz-frontend/node_modules/
