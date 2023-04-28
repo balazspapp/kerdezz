@@ -1,0 +1,34 @@
+<h2>Új kérdőív létrehozása</h2>
+
+<div class="form-group">
+  <label for="survey-name">Kérdőív neve:</label>
+  <input type="text" class="form-control" id="survey-name" [(ngModel)]="surveyName">
+</div>
+
+<div class="form-group">
+  <label for="anonymous-selector">Anonim válaszadás:</label>
+  <select class="form-control" id="anonymous-selector" [(ngModel)]="anonymous">
+    <option value="true">Igen</option>
+    <option value="false">Nem</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="multi-completion-selector">Kitölthetőség:</label>
+  <select class="form-control" id="multi-completion-selector" [(ngModel)]="multiCompletion">
+    <option value="true">Egyszeri kitöltés</option>
+    <option value="false">Többszöri kitöltés</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="visibility-selector">Hozzáférési jogok:</label>
+  <select class="form-control" id="visibility-selector" [(ngModel)]="visibility">
+    <option value="public">Nyilvános</option>
+    <option value="private">Korlátozott</option>
+  </select>
+</div>
+
+<!-- Kerdesek hozzaadasa, valtoztatasa, torlese stb. -->
+
+<button class="btn btn-primary" (click)="saveSurvey()">Mentés</button>

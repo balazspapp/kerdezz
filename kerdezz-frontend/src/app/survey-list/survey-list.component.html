@@ -1,0 +1,21 @@
+<h2>Kérdőívek listája</h2>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Név</th>
+    <th>Anonim válaszadás</th>
+    <th>Kitölthetőség</th>
+    <th>Hozzáférési jogok</th>
+    <th>Műveletek</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let survey of surveys">
+    <td>{{survey.name}}</td>
+    <td>{{survey.anonymous ? 'Igen' : 'Nem'}}</td>
+    <td>{{survey.multiCompletion ? 'Egyszeri' : 'Többszöri'}}</td>
+    <td>{{survey.visibility}}</td>
+  </tr>
+  </tbody>
+</table>

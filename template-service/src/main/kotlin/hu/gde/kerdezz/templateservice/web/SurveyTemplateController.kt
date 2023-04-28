@@ -1,21 +1,32 @@
 package hu.gde.kerdezz.templateservice.web
 
-import hu.gde.kerdezz.templateservice.web.dto.NewQuestionnaireDto
+import hu.gde.kerdezz.templateservice.repository.SurveyRepository
+import hu.gde.kerdezz.templateservice.web.dto.QuestionnaireDto
+import hu.gde.kerdezz.templateservice.web.dto.mapDtoToSurvey
+import hu.gde.kerdezz.templateservice.web.dto.mapSurveyToDto
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("api/templates")
-class SurveyTemplateController {
+class SurveyTemplateController(val surveyRepository: SurveyRepository) {
   private val logger = LoggerFactory.getLogger(javaClass)
 
   @PostMapping
-  fun getTemplates(@RequestBody request: NewQuestionnaireDto): ResponseEntity<String> {
+  fun createNewTemplate(@RequestBody request: QuestionnaireDto): ResponseEntity<Unit> {
     logger.info("new questionnaire: {}", request)
-    return ResponseEntity.ok("ok")
+    surveyRepository.save(mapDtoToSurvey(request))
+    return ResponseEntity.ok().build()
+  }
+
+  @GetMapping
+  fun getTemplates(): ResponseEntity<Page<QuestionnaireDto>> {
+    logger.info("get questionnaires")
+    val surveys = surveyRepository.findAll(PageRequest.of(0, 10))
+    val dtos = surveys.map { mapSurveyToDto(it) }
+    return ResponseEntity.ok(dtos)
   }
 }
