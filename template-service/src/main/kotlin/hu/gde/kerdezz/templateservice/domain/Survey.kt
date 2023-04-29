@@ -9,7 +9,7 @@ data class Survey(
   val name: String,
   val isAnonymous: Boolean,
   val isMultiple: Boolean,
-  val isPublic: Boolean,
+  val visibility: Visibility,
   val questions: List<Question>
 )
 

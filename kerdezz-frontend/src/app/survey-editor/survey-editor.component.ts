@@ -3,11 +3,11 @@ import {SurveyTemplateService} from "../service/survey-template.service";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-new-survey',
-  templateUrl: './new-survey.component.html',
-  styleUrls: ['./new-survey.component.css']
+  selector: 'app-edit-survey',
+  templateUrl: './survey-editor.component.html',
+  styleUrls: ['./survey-editor.component.css']
 })
-export class NewSurveyComponent {
+export class SurveyEditorComponent {
   surveyName?: string;
   anonymous: boolean = false;
   multiCompletion: boolean = false;

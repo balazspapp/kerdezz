@@ -1,12 +1,11 @@
 <h2>Kérdőívek listája</h2>
-
 <table class="table table-striped">
   <thead>
   <tr>
     <th>Név</th>
     <th>Anonim válaszadás</th>
     <th>Kitölthetőség</th>
-    <th>Hozzáférési jogok</th>
+    <th>Láthatóság</th>
     <th>Műveletek</th>
   </tr>
   </thead>
@@ -15,7 +14,13 @@
     <td>{{survey.name}}</td>
     <td>{{survey.anonymous ? 'Igen' : 'Nem'}}</td>
     <td>{{survey.multiCompletion ? 'Egyszeri' : 'Többszöri'}}</td>
-    <td>{{survey.visibility}}</td>
+    <td>
+      <ng-container [ngSwitch]="survey.visibility">
+        <i *ngSwitchCase="'public'" class="bi-unlock-fill"></i>
+        <i *ngSwitchCase="'invite_only'" class="bi-lock-fill"></i>
+        <i *ngSwitchCase="'private'" class="bi-eye-slash-fill"></i>
+      </ng-container>
+    </td>
   </tr>
   </tbody>
 </table>

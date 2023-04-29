@@ -2,12 +2,13 @@ package hu.gde.kerdezz.templateservice.web.dto
 
 import hu.gde.kerdezz.templateservice.domain.Question
 import hu.gde.kerdezz.templateservice.domain.Survey
+import hu.gde.kerdezz.templateservice.domain.Visibility
 
 data class QuestionnaireDto(
   val id: String?,
   val isAnonymous: Boolean,
   val isMultiple: Boolean,
-  val isPublic: Boolean,
+  val visibility: Visibility,
   val name: String,
   val questions: List<QuestionDto>?
 )
@@ -18,7 +19,7 @@ fun mapDtoToSurvey(dto: QuestionnaireDto): Survey {
     dto.name,
     dto.isAnonymous,
     dto.isMultiple,
-    dto.isPublic,
+    dto.visibility,
     dto.questions?.map { mapToQuestion(it) } ?: listOf()
   )
 }
@@ -40,7 +41,7 @@ fun mapSurveyToDto(survey: Survey): QuestionnaireDto {
     survey.id,
     survey.isAnonymous,
     survey.isMultiple,
-    survey.isPublic,
+    survey.visibility,
     survey.name,
     survey.questions.map { mapQuestionToDto(it) }
   )

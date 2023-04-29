@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
-import {NewSurveyComponent} from './new-survey/new-survey.component';
+import {SurveyEditorComponent} from './survey-editor/survey-editor.component';
 import {FormsModule} from "@angular/forms";
 import {SurveyListComponent} from './survey-list/survey-list.component';
 import {HttpClientModule} from "@angular/common/http";
@@ -16,7 +16,7 @@ import {HttpClientModule} from "@angular/common/http";
     AppComponent,
     HomeComponent,
     LoginComponent,
-    NewSurveyComponent,
+    SurveyEditorComponent,
     SurveyListComponent
   ],
   imports: [
