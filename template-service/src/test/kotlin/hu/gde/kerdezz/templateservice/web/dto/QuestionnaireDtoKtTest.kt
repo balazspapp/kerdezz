@@ -31,8 +31,8 @@ internal class QuestionnaireDtoKtTest {
   fun mapDtoToSurvey() {
     val questionnaireDto = QuestionnaireDto(
       id = null,
-      isAnonymous = false,
-      isMultiple = false,
+      anonymous = false,
+      multiCompletion = false,
       isPublic = false,
       name = "Name",
       questions = listOf(questionDto)

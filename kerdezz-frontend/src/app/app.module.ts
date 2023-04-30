@@ -7,10 +7,11 @@ import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 import {SurveyEditorComponent} from './survey-editor/survey-editor.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SurveyListComponent} from './survey-list/survey-list.component';
 import {HttpClientModule} from "@angular/common/http";
 import { QuestionEditorComponent } from './question-editor/question-editor.component';
+import { AnswerOptionsComponent } from './answer-options/answer-options.component';
 
 @NgModule({
   declarations: [
@@ -19,15 +20,17 @@ import { QuestionEditorComponent } from './question-editor/question-editor.compo
     LoginComponent,
     SurveyEditorComponent,
     SurveyListComponent,
-    QuestionEditorComponent
+    QuestionEditorComponent,
+    AnswerOptionsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgbCollapseModule,
-    FormsModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NgbCollapseModule,
+        FormsModule,
+        HttpClientModule,
+        ReactiveFormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -6,8 +6,8 @@ import hu.gde.kerdezz.templateservice.domain.Visibility
 
 data class QuestionnaireDto(
   val id: String?,
-  val isAnonymous: Boolean,
-  val isMultiple: Boolean,
+  val anonymous: Boolean,
+  val multiCompletion: Boolean,
   val visibility: Visibility,
   val name: String,
   val questions: List<QuestionDto>?
@@ -17,8 +17,8 @@ fun mapDtoToSurvey(dto: QuestionnaireDto): Survey {
   return Survey(
     dto.id,
     dto.name,
-    dto.isAnonymous,
-    dto.isMultiple,
+    dto.anonymous,
+    dto.multiCompletion,
     dto.visibility,
     dto.questions?.map { mapToQuestion(it) } ?: listOf()
   )

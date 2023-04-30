@@ -7,6 +7,5 @@ import {Question} from "../domain/survey";
   styleUrls: ['./question-editor.component.css']
 })
 export class QuestionEditorComponent {
-  @Input() question!: Question;
-
+  @Input() question: Question;
 }
