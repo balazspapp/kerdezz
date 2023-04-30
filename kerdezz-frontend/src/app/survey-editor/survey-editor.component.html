@@ -6,14 +6,14 @@
   <div class="row p-3">
      <div class="form-group col-md-5">
       <label for="multi-completion-selector">Kitölthetőség:</label>
-      <select class="form-control" id="multi-completion-selector" [(ngModel)]="survey.multiCompletion" name="multi-completion">
+      <select class="form-select" id="multi-completion-selector" [(ngModel)]="survey.multiCompletion" name="multi-completion">
         <option value="true">Egyszeri kitöltés</option>
         <option value="false">Többszöri kitöltés</option>
       </select>
     </div>
     <div class="form-group col-md-5">
       <label for="visibility-selector">Hozzáférési jogok:</label>
-      <select class="form-control" id="visibility-selector" [(ngModel)]="survey.visibility" name="visibility">
+      <select class="form-select" id="visibility-selector" [(ngModel)]="survey.visibility" name="visibility">
         <option value="public">Nyilvános</option>
         <option value="invite_only">Korlátozott</option>
         <option value="private">Privát</option>
@@ -34,7 +34,7 @@
       <p class="card-text">Kötelező: {{ question.required ? 'igen' : 'nem' }}</p>
       <p *ngIf="question.options && question.options.length > 0">Válaszlehetőségek:</p>
       <ul *ngIf="question.options && question.options.length > 0">
-        <li *ngFor="let option of question.options">{{ option }}</li>
+        <li *ngFor="let option of question.options">{{ option.value }}</li>
       </ul>
       <p *ngIf="question.questionType === 'NUMBER'">Minimum: {{ question.min }}</p>
       <p *ngIf="question.questionType === 'NUMBER'">Maximum: {{ question.max }}</p>

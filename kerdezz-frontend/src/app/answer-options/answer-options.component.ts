@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Option} from "../domain/survey";
 
 @Component({
   selector: 'app-answer-options',
@@ -7,30 +7,13 @@ import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./answer-options.component.css']
 })
 export class AnswerOptionsComponent {
-  @Input() options: string[];
-  form: FormGroup;
-
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit() {
-    this.form = this.fb.group({
-      optionList: this.fb.array([])
-    });
-  }
-
-  createOption(): FormGroup {
-    return this.fb.group({
-      value: ['', Validators.required]
-    });
-  }
+  @Input() options: Option[];
 
   addOption() {
-    const optionList = this.form.get('optionList') as FormArray;
-    optionList.push(this.createOption());
+    this.options.push({value: ''});
   }
 
   removeOption(index: number) {
-    const optionList = this.form.get('optionList') as FormArray;
-    optionList.removeAt(index);
+    this.options.splice(index, 1);
   }
 }

@@ -12,7 +12,7 @@ export class SurveyTemplateService {
   constructor(private http: HttpClient) {
   }
 
-  saveSurvey(survey: any) {
+  saveSurvey(survey: Survey) {
     const url = `${this.baseUrl}`;
     return this.http.post<string>(url, survey);
   }

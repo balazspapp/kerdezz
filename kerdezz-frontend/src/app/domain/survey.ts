@@ -14,9 +14,13 @@ export interface Question {
   questionText?: string;
   questionType?: string;
   required?: boolean;
-  options: string[];
+  options: Option[];
   min?: number;
   max?: number;
   minDate?: Date;
   maxDate?: Date;
+}
+
+export interface Option {
+  value: string
 }

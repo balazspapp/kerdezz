@@ -28,7 +28,7 @@ fun mapToQuestion(questionDto: QuestionDto): Question {
   return Question(
     type = questionDto.questionType,
     text = questionDto.questionText,
-    options = questionDto.options,
+    options = questionDto.options?.map{ it.value },
     min = questionDto.minValue,
     max = questionDto.maxValue,
     minDate = questionDto.minDate,
@@ -51,7 +51,7 @@ fun mapQuestionToDto(question: Question): QuestionDto {
   return QuestionDto(
     questionType = question.type,
     questionText = question.text,
-    options = question.options,
+    options = question.options?.map { OptionDto(it) },
     minValue = question.min,
     maxValue = question.max,
     minDate = question.minDate,

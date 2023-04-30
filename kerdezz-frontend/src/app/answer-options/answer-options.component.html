@@ -1,32 +1,16 @@
-<!--<form [formGroup]="form">-->
-<!--  <div formArrayName="options">-->
-<!--    <div *ngFor="let option of form.get('options').controls; let i = index" [formGroupName]="i">-->
-<!--      <label>-->
-<!--        <input type="text" formControlName="value" placeholder="Option value" />-->
-<!--      </label>-->
-<!--      <button type="button" (click)="removeOption(i)" [disabled]="options.length === 1">-</button>-->
-<!--    </div>-->
-<!--    <button type="button" (click)="addOption()">+</button>-->
-<!--  </div>-->
-<!--</form>-->
+<div class="form-group">
+  <div class="row py-1" *ngFor="let item of options; let i = index">
+    <div class="col-11">
+      <input type="text" class="form-control" [(ngModel)]="options[i].value"/>
+    </div>
+    <div class="col-1">
+      <i (click)="removeOption(i)" class="bi-x-lg"></i>
+    </div>
+  </div>
 
-<!--<div class="add-options-form" [formGroup]="form">-->
-<!--  <ng-container formArrayName="optionsFormArray">-->
-<!--    <ng-container *ngFor="let optionForm of optionsFormArray.controls; let i = index">-->
-<!--      <div class="options-form-row" [formGroupName]="i">-->
-<!--        <label>-->
-<!--          <input type="text" formControlName="value" placeholder="Option value"/>-->
-<!--        </label>-->
-
-<!--&lt;!&ndash;        <mat-icon class="delete-btn" (click)="deleteLesson(i)">&ndash;&gt;-->
-<!--&lt;!&ndash;          delete_forever&ndash;&gt;-->
-<!--&lt;!&ndash;        </mat-icon>&ndash;&gt;-->
-<!--      </div>-->
-<!--    </ng-container>-->
-<!--  </ng-container>-->
-
-<!--  <button mat-mini-fab (click)="addLesson()">-->
-<!--    <mat-icon class="add-course-btn">add</mat-icon>-->
-<!--  </button>-->
-
-<!--</div>-->
+  <div class="row py-1">
+    <div class="col-3">
+      <button class="btn btn-primary" (click)="addOption()"><i class="bi bi-arrow-return-right" (click)="addOption()"></i> Új lehetőség</button>
+    </div>
+  </div>
+</div>
