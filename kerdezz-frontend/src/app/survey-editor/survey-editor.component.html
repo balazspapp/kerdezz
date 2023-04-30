@@ -1,35 +1,87 @@
 <h2>Új kérdőív létrehozása</h2>
-
 <div class="form-group">
   <label for="survey-name">Kérdőív neve:</label>
-  <input type="text" class="form-control" id="survey-name" [(ngModel)]="surveyName">
+  <input type="text" class="form-control" id="survey-name" [(ngModel)]="survey.name">
 </div>
-
 <div class="form-group">
   <label for="anonymous-selector">Anonim válaszadás:</label>
-  <select class="form-control" id="anonymous-selector" [(ngModel)]="anonymous">
+  <select class="form-control" id="anonymous-selector" [(ngModel)]="survey.anonymous">
     <option value="true">Igen</option>
     <option value="false">Nem</option>
   </select>
 </div>
-
 <div class="form-group">
   <label for="multi-completion-selector">Kitölthetőség:</label>
-  <select class="form-control" id="multi-completion-selector" [(ngModel)]="multiCompletion">
+  <select class="form-control" id="multi-completion-selector" [(ngModel)]="survey.multiCompletion">
     <option value="true">Egyszeri kitöltés</option>
     <option value="false">Többszöri kitöltés</option>
   </select>
 </div>
-
 <div class="form-group">
   <label for="visibility-selector">Hozzáférési jogok:</label>
-  <select class="form-control" id="visibility-selector" [(ngModel)]="visibility">
+  <select class="form-control" id="visibility-selector" [(ngModel)]="survey.visibility">
     <option value="public">Nyilvános</option>
     <option value="read_only">Korlátozott</option>
     <option value="private">Privát</option>
   </select>
 </div>
 
-<!-- Kerdesek hozzaadasa, valtoztatasa, torlese stb. -->
+<div *ngFor="let question of survey.questions">
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ question.questionText }}</h5>
+      <p class="card-text">Típus: {{ question.questionType }}</p>
+      <p class="card-text">Kötelező: {{ question.required ? 'igen' : 'nem' }}</p>
+      <p *ngIf="question.options && question.options.length > 0">Válaszlehetőségek:</p>
+      <ul *ngIf="question.options && question.options.length > 0">
+        <li *ngFor="let option of question.options">{{ option.text }}</li>
+      </ul>
+      <p *ngIf="question.questionType === 'NUMBER'">Minimum: {{ question.min }}</p>
+      <p *ngIf="question.questionType === 'NUMBER'">Maximum: {{ question.max }}</p>
+      <p *ngIf="question.questionType === 'DATE'">Minimum: {{ question.minDate | date:'yyyy-MM-dd' }}</p>
+      <p *ngIf="question.questionType === 'DATE'">Maximum: {{ question.maxDate | date:'yyyy-MM-dd' }}</p>
+    </div>
+  </div>
+</div>
+<!-- Új kérdés hozzáadása form -->
+<!-- Kérdés hozzáadása form -->
+<div class="form-group">
+  <h4>Új kérdés hozzáadása</h4>
+
+  <div class="form-group">
+    <label for="question-text">Kérdés szövege:</label>
+    <input type="text" class="form-control" id="question-text" [(ngModel)]="newQuestion.questionText">
+  </div>
+
+  <div class="form-group">
+    <label for="question-type">Kérdés típusa:</label>
+    <select class="form-control" id="question-type" [(ngModel)]="newQuestion.questionType">
+      <option value="SIMPLE_CHOICE">Egyszerű, többszörös választásos kérdés</option>
+      <option value="MULTI_CHOICE">Egyszerű, többszörös választásos kérdés</option>
+      <option value="DATE">Dátum típusú kérdés</option>
+      <option value="NUMBER">Szám típusú kérdés</option>
+      <option value="EMAIL">Email típusú kérdés</option>
+      <option value="OPEN_TEXT">Nyitott szöveges kérdés</option>
+    </select>
+  </div>
+
+  <div *ngIf="newQuestion.questionType === 'NUMBER'" class="form-group">
+    <label for="question-min">Minimum érték:</label>
+    <input type="number" class="form-control" id="question-min" [(ngModel)]="newQuestion.min">
+    <label for="question-max">Maximum érték:</label>
+    <input type="number" class="form-control" id="question-max" [(ngModel)]="newQuestion.max">
+  </div>
+
+
+  <div *ngIf="newQuestion.questionType === 'DATE'" class="form-group">
+    <label for="question-min-date">Minimum érték:</label>
+    <input type="date" class="form-control" id="question-min-date" [(ngModel)]="newQuestion.minDate">
+    <label for="question-max-date">Maximum érték:</label>
+    <input type="date" class="form-control" id="question-max-date" [(ngModel)]="newQuestion.maxDate">
+  </div>
+
+  <button class="btn btn-primary" (click)="addQuestion()">Hozzáadás</button>
+  <button class="btn btn-secondary" (click)="resetQuestion()">Mégse</button>
+</div>
 
 <button class="btn btn-primary" (click)="saveSurvey()">Mentés</button>

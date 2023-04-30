@@ -10,6 +10,7 @@ import {SurveyEditorComponent} from './survey-editor/survey-editor.component';
 import {FormsModule} from "@angular/forms";
 import {SurveyListComponent} from './survey-list/survey-list.component';
 import {HttpClientModule} from "@angular/common/http";
+import { QuestionEditorComponent } from './question-editor/question-editor.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {HttpClientModule} from "@angular/common/http";
     HomeComponent,
     LoginComponent,
     SurveyEditorComponent,
-    SurveyListComponent
+    SurveyListComponent,
+    QuestionEditorComponent
   ],
   imports: [
     BrowserModule,
