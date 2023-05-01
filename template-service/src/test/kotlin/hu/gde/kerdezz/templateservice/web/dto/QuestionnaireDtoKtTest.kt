@@ -3,11 +3,14 @@ package hu.gde.kerdezz.templateservice.web.dto
 import hu.gde.kerdezz.templateservice.domain.Question
 import hu.gde.kerdezz.templateservice.domain.QuestionType
 import hu.gde.kerdezz.templateservice.domain.Survey
+import hu.gde.kerdezz.templateservice.domain.Visibility
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class QuestionnaireDtoKtTest {
   private val question = Question(
+    "id",
+    true,
     QuestionType.SIMPLE_CHOICE,
     "A question",
     null,
@@ -18,8 +21,10 @@ internal class QuestionnaireDtoKtTest {
   )
 
   private val questionDto = QuestionDto(
-    questionText = "A question",
+    id = "id",
+    required = true,
     questionType = QuestionType.SIMPLE_CHOICE,
+    questionText = "A question",
     options = null,
     minValue = null,
     maxValue = null,
@@ -33,13 +38,14 @@ internal class QuestionnaireDtoKtTest {
       id = null,
       anonymous = false,
       multiCompletion = false,
-      isPublic = false,
+      visibility = Visibility.private,
       name = "Name",
-      questions = listOf(questionDto)
+      questions = listOf(questionDto),
+      text = "text"
     )
-    val actual = mapDtoToSurvey(questionnaireDto)
+    val actual = questionnaireDto.mapDtoToSurvey()
     val expected = Survey(
-      id = null, name = "Name", isAnonymous = false, isMultiple = false, isPublic = false,
+      id = null, name = "Name", isAnonymous = false, isMultiple = false, visibility = Visibility.private, text = "text",
       questions = listOf(question)
     )
     assertEquals(expected, actual)
@@ -47,6 +53,6 @@ internal class QuestionnaireDtoKtTest {
 
   @Test
   fun mapToQuestion() {
-    assertEquals(question, mapToQuestion(questionDto))
+    assertEquals(question, questionDto.mapToQuestion())
   }
 }

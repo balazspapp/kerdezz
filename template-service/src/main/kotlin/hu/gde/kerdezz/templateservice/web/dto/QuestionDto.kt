@@ -4,6 +4,8 @@ import hu.gde.kerdezz.templateservice.domain.QuestionType
 import java.time.LocalDate
 
 data class QuestionDto(
+  val id: String?,
+  val required: Boolean = false,
   val questionText: String,
   val questionType: QuestionType,
   val options: List<OptionDto>?,

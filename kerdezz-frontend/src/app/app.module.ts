@@ -12,6 +12,7 @@ import {SurveyListComponent} from './survey-list/survey-list.component';
 import {HttpClientModule} from "@angular/common/http";
 import { QuestionEditorComponent } from './question-editor/question-editor.component';
 import { AnswerOptionsComponent } from './answer-options/answer-options.component';
+import { FillSurveyComponent } from './fill-survey/fill-survey.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AnswerOptionsComponent } from './answer-options/answer-options.componen
     SurveyEditorComponent,
     SurveyListComponent,
     QuestionEditorComponent,
-    AnswerOptionsComponent
+    AnswerOptionsComponent,
+    FillSurveyComponent
   ],
   imports: [
     BrowserModule,

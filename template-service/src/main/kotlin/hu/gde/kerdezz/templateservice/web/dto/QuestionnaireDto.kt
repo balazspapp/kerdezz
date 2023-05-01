@@ -3,6 +3,7 @@ package hu.gde.kerdezz.templateservice.web.dto
 import hu.gde.kerdezz.templateservice.domain.Question
 import hu.gde.kerdezz.templateservice.domain.Survey
 import hu.gde.kerdezz.templateservice.domain.Visibility
+import java.util.UUID
 
 data class QuestionnaireDto(
   val id: String?,
@@ -14,50 +15,54 @@ data class QuestionnaireDto(
   val questions: List<QuestionDto>?
 )
 
-fun mapDtoToSurvey(dto: QuestionnaireDto): Survey {
+fun QuestionnaireDto.mapDtoToSurvey(): Survey {
   return Survey(
-    dto.id,
-    dto.name,
-    dto.text,
-    dto.anonymous,
-    dto.multiCompletion,
-    dto.visibility,
-    dto.questions?.map { mapToQuestion(it) } ?: listOf()
+    this.id,
+    this.name,
+    this.text,
+    this.anonymous,
+    this.multiCompletion,
+    this.visibility,
+    this.questions?.map { it.mapToQuestion() } ?: listOf()
   )
 }
 
-fun mapToQuestion(questionDto: QuestionDto): Question {
+fun  QuestionDto.mapToQuestion(): Question {
   return Question(
-    type = questionDto.questionType,
-    text = questionDto.questionText,
-    options = questionDto.options?.map{ it.value },
-    min = questionDto.minValue,
-    max = questionDto.maxValue,
-    minDate = questionDto.minDate,
-    maxDate = questionDto.maxDate
+    id = this.id?: UUID.randomUUID().toString(),
+    required = this.required,
+    type = this.questionType,
+    text = this.questionText,
+    options = this.options?.map{ it.value },
+    min = this.minValue,
+    max = this.maxValue,
+    minDate = this.minDate,
+    maxDate = this.maxDate
   )
 }
 
-fun mapSurveyToDto(survey: Survey): QuestionnaireDto {
+fun Survey.mapSurveyToDto(): QuestionnaireDto {
   return QuestionnaireDto(
-    survey.id,
-    survey.name,
-    survey.text,
-    survey.isAnonymous,
-    survey.isMultiple,
-    survey.visibility,
-    survey.questions.map { mapQuestionToDto(it) }
+    this.id,
+    this.name,
+    this.text,
+    this.isAnonymous,
+    this.isMultiple,
+    this.visibility,
+    this.questions.map { it.mapQuestionToDto() }
   )
 }
 
-fun mapQuestionToDto(question: Question): QuestionDto {
+fun Question.mapQuestionToDto(): QuestionDto {
   return QuestionDto(
-    questionType = question.type,
-    questionText = question.text,
-    options = question.options?.map { OptionDto(it) },
-    minValue = question.min,
-    maxValue = question.max,
-    minDate = question.minDate,
-    maxDate = question.maxDate
+    id = this.id,
+    required = this.required,
+    questionType = this.type,
+    questionText = this.text,
+    options = this.options?.map { OptionDto(it) },
+    minValue = this.min,
+    maxValue = this.max,
+    minDate = this.minDate,
+    maxDate = this.maxDate
   )
 }

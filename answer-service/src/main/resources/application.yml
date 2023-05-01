@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: answer-service
+server:
+  port: 8083
+template-service-url: http://template-service/api/templates

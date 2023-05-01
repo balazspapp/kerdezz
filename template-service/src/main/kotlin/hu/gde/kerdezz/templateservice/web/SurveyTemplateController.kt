@@ -18,7 +18,7 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
   @PostMapping
   fun createNewTemplate(@RequestBody request: QuestionnaireDto): ResponseEntity<Unit> {
     logger.info("new questionnaire: {}", request)
-    surveyRepository.save(mapDtoToSurvey(request))
+    surveyRepository.save(request.mapDtoToSurvey())
     return ResponseEntity.ok().build()
   }
 
@@ -27,7 +27,7 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
     logger.info("get questionnaires for page: {}", page)
     val pageSize = 10
     val surveys = surveyRepository.findAll(PageRequest.of(page, pageSize))
-    val dtos = surveys.map { mapSurveyToDto(it) }
+    val dtos = surveys.map { it.mapSurveyToDto() }
     return ResponseEntity.ok(dtos)
   }
 
@@ -35,7 +35,7 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
   fun getTemplate(@PathVariable id: String): ResponseEntity<QuestionnaireDto> {
     logger.info("get questionnaire with id: {}", id)
     val survey = surveyRepository.findById(id)
-    return survey.map { ResponseEntity.ok(mapSurveyToDto(it)) }
+    return survey.map { ResponseEntity.ok(it.mapSurveyToDto()) }
       .orElse(ResponseEntity.notFound().build())
   }
 }

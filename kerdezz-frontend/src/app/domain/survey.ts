@@ -10,10 +10,10 @@ export interface Survey {
 }
 
 export interface Question {
-  id?: number;
+  id?: string;
   questionText?: string;
   questionType?: string;
-  required?: boolean;
+  required: boolean;
   options: Option[];
   min?: number;
   max?: number;

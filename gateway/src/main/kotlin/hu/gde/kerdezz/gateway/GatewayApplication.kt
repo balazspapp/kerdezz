@@ -12,13 +12,16 @@ import org.springframework.context.annotation.Bean
 class GatewayApplication {
   @Bean
   fun gatewayRoutes(builder: RouteLocatorBuilder): RouteLocator = builder.routes()
-    .route("backend") { r ->
-      r.path("/api/**")
+    .route("templateService") { r ->
+      r.path("/api/templates/**")
         .uri("http://localhost:8082")
+    }
+    .route("answerService") { r ->
+      r.path("/api/surveys/**")
+        .uri("http://localhost:8083")
     }
     .build()
 }
-
 
 fun main(args: Array<String>) {
   runApplication<GatewayApplication>(*args)

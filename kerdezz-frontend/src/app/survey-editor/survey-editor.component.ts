@@ -83,9 +83,8 @@ export class SurveyEditorComponent {
     this.newQuestion = SurveyEditorComponent.getNewQuestion();
   }
 
-  private static getNewQuestion() {
+  private static getNewQuestion(): Question {
     return {
-      id: NaN,
       questionText: '',
       questionType: '',
       required: false,
