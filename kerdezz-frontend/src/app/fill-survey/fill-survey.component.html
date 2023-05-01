@@ -1,1 +1,42 @@
-<p>fill-survey works!</p>
+<div *ngIf="template">
+  <h2>{{ template.name }}</h2>
+  <div>
+    <div *ngFor="let question of template.questions">
+      <div *ngIf="question.questionType === 'SIMPLE_CHOICE'">
+        <h4>{{ question.questionText }}</h4>
+        <div *ngFor="let option of question.options">
+          <label>
+            <input type="radio" name="{{ question.id }}" [value]="option.value" [(ngModel)]="answers[question.id]"> {{ option.value }}
+          </label>
+        </div>
+      </div>
+      <div *ngIf="question.questionType === 'MULTI_CHOICE'">
+        <h4>{{ question.questionText }}</h4>
+        <div *ngFor="let option of question.options">
+          <label>
+            <input type="checkbox" name="{{ question.id }}" [value]="option.value"
+                   [(ngModel)]="answers[question.id][option.value].multiValue"> {{ option.value }}
+          </label>
+        </div>
+      </div>
+      <div *ngIf="question.questionType === 'OPEN_TEXT'">
+        <h4>{{ question.questionText }}</h4>
+        <textarea [(ngModel)]="answers[question.id].value"></textarea>
+      </div>
+      <div *ngIf="question.questionType === 'DATE'">
+        <h4>{{ question.questionText }}</h4>
+        <input type="date" [(ngModel)]="answers[question.id].value">
+      </div>
+      <div *ngIf="question.questionType === 'NUMBER'">
+        <h4>{{ question.questionText }}</h4>
+        <input type="number" [(ngModel)]="answers[question.id].value">
+      </div>
+      <div *ngIf="question.questionType === 'EMAIL'">
+        <h4>{{ question.questionText }}</h4>
+        <input type="email" [(ngModel)]="answers[question.id].value">
+      </div>
+      <br>
+    </div>
+    <button (click)="saveAnswer()">Mentés</button>
+  </div>
+</div>

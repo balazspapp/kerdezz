@@ -21,13 +21,6 @@ export class SurveyEditorComponent {
   }
 
   ngOnInit() {
-    // this.route.params
-    //   .pipe(map((params) => params['id']))
-    //   .subscribe(id => {
-    //     this.surveyService.getSurvey(id).subscribe((survey: Survey) => {
-    //       this.survey = survey;
-    //     });
-    //   });
     let surveyId = this.route.snapshot.paramMap.get('id');
     console.log('surveyId: {}', surveyId);
     if (surveyId) {
