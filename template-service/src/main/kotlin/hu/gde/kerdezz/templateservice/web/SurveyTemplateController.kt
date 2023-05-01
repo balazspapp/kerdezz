@@ -29,4 +29,12 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
     val dtos = surveys.map { mapSurveyToDto(it) }
     return ResponseEntity.ok(dtos)
   }
+
+  @GetMapping("/{id}")
+  fun getTemplate(@PathVariable id: String): ResponseEntity<QuestionnaireDto> {
+    logger.info("get questionnaire with id: {}", id)
+    val survey = surveyRepository.findById(id)
+    return survey.map { ResponseEntity.ok(mapSurveyToDto(it)) }
+      .orElse(ResponseEntity.notFound().build())
+  }
 }
