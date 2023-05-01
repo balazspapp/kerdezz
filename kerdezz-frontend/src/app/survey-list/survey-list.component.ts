@@ -9,15 +9,23 @@ import {Survey} from "../domain/survey";
 })
 export class SurveyListComponent {
   surveys: any;
+  totalPages: number;
+  pageNumber: number = 1;
 
   constructor(public surveyTemplateService: SurveyTemplateService) {
   }
 
   ngOnInit(): void {
-    this.surveyTemplateService.getSurveys()
+    this.getSurveys();
+  }
+
+  getSurveys() {
+    this.surveyTemplateService.getSurveys(this.pageNumber - 1)
       .subscribe({
-        next: (surveys) => {
-          this.surveys = surveys;
+        next: (response) => {
+          console.log(response);
+          this.surveys = response.surveys;
+          this.totalPages = response.totalPages;
         },
         error: (error) => {
           console.log(error);

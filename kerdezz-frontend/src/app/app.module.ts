@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
-import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbCollapseModule, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {SurveyEditorComponent} from './survey-editor/survey-editor.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SurveyListComponent} from './survey-list/survey-list.component';
@@ -23,14 +23,15 @@ import { AnswerOptionsComponent } from './answer-options/answer-options.componen
     QuestionEditorComponent,
     AnswerOptionsComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        NgbCollapseModule,
-        FormsModule,
-        HttpClientModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    NgbCollapseModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgbModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

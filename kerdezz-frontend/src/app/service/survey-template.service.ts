@@ -17,14 +17,19 @@ export class SurveyTemplateService {
     return this.http.post<string>(url, survey);
   }
 
-  getSurveys(): Observable<Survey[]> {
-    const url = `${this.baseUrl}`;
+  getSurveys(pageNumber?: number) {
+    const url = `${this.baseUrl}${pageNumber ? `?page=${pageNumber}` : ''}`;
     return this.http.get<any>(url).pipe(
       map(response => {
-        return response.content;
+        return {
+          surveys: response.content,
+          totalPages: response.totalPages,
+          pageNumber: response.number
+        };
       })
     );
   }
+
   getSurvey(id: string): Observable<Survey> {
     const url = `${this.baseUrl}/${id}`;
     return this.http.get<any>(url);
