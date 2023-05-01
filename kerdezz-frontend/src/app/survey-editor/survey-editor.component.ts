@@ -9,16 +9,17 @@ import {Question, Survey} from "../domain/survey";
   styleUrls: ['./survey-editor.component.css']
 })
 export class SurveyEditorComponent {
-  survey: Survey = {
-    name: '',
-    anonymous: false,
-    multiCompletion: false,
-    visibility:'public',
-    questions: []
-  }
+  survey: Survey;
   newQuestion: Question = SurveyEditorComponent.getNewQuestion();
 
   constructor(private surveyService: SurveyTemplateService, private router: Router) {
+    this.survey = {
+      name: '',
+      anonymous: false,
+      multiCompletion: false,
+      visibility:'public',
+      questions: [SurveyEditorComponent.getNewQuestion()]
+    }
   }
 
   saveSurvey() {
@@ -53,6 +54,10 @@ export class SurveyEditorComponent {
       min: NaN,
       max: NaN
     };
+  }
+
+  removeQuestion(index: number) {
+    this.survey.questions.splice(index, 1);
   }
 
   resetQuestion() {

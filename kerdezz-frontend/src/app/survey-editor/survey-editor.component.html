@@ -1,54 +1,47 @@
-<form class="card p-3">
+<div class="card p-3 m-2">
   <div class="form-group">
     <input type="text" class="form-control survey-title" id="survey-name" [(ngModel)]="survey.name"
            placeholder="Kérdőív neve" name="survey-name">
   </div>
   <div class="row p-3">
-     <div class="form-group col-md-5">
+    <div class="col-auto">
       <label for="multi-completion-selector">Kitölthetőség:</label>
+    </div>
+    <div class="col-auto">
       <select class="form-select" id="multi-completion-selector" [(ngModel)]="survey.multiCompletion" name="multi-completion">
         <option value="true">Egyszeri kitöltés</option>
         <option value="false">Többszöri kitöltés</option>
       </select>
     </div>
-    <div class="form-group col-md-5">
+    <div class="col-auto">
       <label for="visibility-selector">Hozzáférési jogok:</label>
+    </div>
+    <div class="col-auto">
       <select class="form-select" id="visibility-selector" [(ngModel)]="survey.visibility" name="visibility">
         <option value="public">Nyilvános</option>
         <option value="invite_only">Korlátozott</option>
         <option value="private">Privát</option>
       </select>
     </div>
-    <div class="form-check col-12">
+    <div class="form-check col-2">
       <label for="anonymous-selector">Anonim válaszadás</label>
       <input type="checkbox" class="form-check-input" id="anonymous-selector" [(ngModel)]="survey.anonymous" name="anonynous">
     </div>
   </div>
-</form>
-
-<div *ngFor="let question of survey.questions">
-  <div class="card mb-3">
-    <div class="card-body">
-      <h5 class="card-title">{{ question.questionText }}</h5>
-      <p class="card-text">Típus: {{ question.questionType }}</p>
-      <p class="card-text">Kötelező: {{ question.required ? 'igen' : 'nem' }}</p>
-      <p *ngIf="question.options && question.options.length > 0">Válaszlehetőségek:</p>
-      <ul *ngIf="question.options && question.options.length > 0">
-        <li *ngFor="let option of question.options">{{ option.value }}</li>
-      </ul>
-      <p *ngIf="question.questionType === 'NUMBER'">Minimum: {{ question.min }}</p>
-      <p *ngIf="question.questionType === 'NUMBER'">Maximum: {{ question.max }}</p>
-      <p *ngIf="question.questionType === 'DATE'">Minimum: {{ question.minDate | date:'yyyy-MM-dd' }}</p>
-      <p *ngIf="question.questionType === 'DATE'">Maximum: {{ question.maxDate | date:'yyyy-MM-dd' }}</p>
-    </div>
+</div>
+<div *ngFor="let question of survey.questions; let i=index" class="card p-3 m-2">
+  <app-question-editor [question]="question"></app-question-editor>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end my-2">
+    <button type="button" class="btn btn-danger" (click)="removeQuestion(i)">
+      <i class="bi bi-trash"></i>
+    </button>
   </div>
 </div>
+
 <!-- Új kérdés hozzáadása form -->
 <!-- Kérdés hozzáadása form -->
-<div class="form-group">
-  <app-question-editor [question]="newQuestion"></app-question-editor>
-  <button class="btn btn-primary" (click)="addQuestion()">Hozzáadás</button>
-  <button class="btn btn-secondary" (click)="resetQuestion()">Mégse</button>
-</div>
 
+<div class="d-grid gap-2 d-md-flex justify-content-md-end p-1">
+  <i class="bi bi-plus-circle-fill fs-1 text-primary" (click)="addQuestion()"></i>
+</div>
 <button class="btn btn-primary" (click)="saveSurvey()">Mentés</button>

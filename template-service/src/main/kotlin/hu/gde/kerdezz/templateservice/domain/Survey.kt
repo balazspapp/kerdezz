@@ -7,6 +7,7 @@ import java.time.LocalDate
 data class Survey(
   val id: String?,
   val name: String,
+  val text: String?,
   val isAnonymous: Boolean,
   val isMultiple: Boolean,
   val visibility: Visibility,

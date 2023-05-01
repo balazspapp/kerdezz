@@ -1,47 +1,45 @@
-<div class="card p-3 my-2">
-  <!-- itt jönnek a kérdés szerkesztő mezők -->
+<!-- itt jönnek a kérdés szerkesztő mezők -->
+
+<div class="form-group">
+  <label for="question-text">Kérdés szövege:</label>
+  <input type="text" class="form-control" id="question-text" [(ngModel)]="question.questionText">
+</div>
+<div class="row">
 
   <div class="form-group">
-    <label for="question-text">Kérdés szövege:</label>
-    <input type="text" class="form-control" id="question-text" [(ngModel)]="question.questionText">
+    <label for="question-required">Kötelező kitölteni:</label>
+    <input type="checkbox" id="question-required" [(ngModel)]="question.required">
   </div>
-  <div class="row">
+  <div class="form-group">
+    <label for="question-type">Kérdés típusa:</label>
+    <select class="form-select" id="question-type" [(ngModel)]="question.questionType">
+      <option value="SIMPLE_CHOICE">Egyszerű választás</option>
+      <option value="MULTI_CHOICE">Többszörös választásos kérdés</option>
+      <option value="DATE">Dátum típusú kérdés</option>
+      <option value="NUMBER">Szám típusú kérdés</option>
+      <option value="EMAIL">Email típusú kérdés</option>
+      <option value="OPEN_TEXT">Nyitott szöveges kérdés</option>
+    </select>
+  </div>
+</div>
 
-    <div class="form-group">
-      <label for="question-required">Kötelező kitölteni:</label>
-      <input type="checkbox" id="question-required" [(ngModel)]="question.required">
-    </div>
-    <div class="form-group">
-      <label for="question-type">Kérdés típusa:</label>
-      <select class="form-select" id="question-type" [(ngModel)]="question.questionType">
-        <option value="SIMPLE_CHOICE">Egyszerű választás</option>
-        <option value="MULTI_CHOICE">Többszörös választásos kérdés</option>
-        <option value="DATE">Dátum típusú kérdés</option>
-        <option value="NUMBER">Szám típusú kérdés</option>
-        <option value="EMAIL">Email típusú kérdés</option>
-        <option value="OPEN_TEXT">Nyitott szöveges kérdés</option>
-      </select>
-    </div>
-  </div>
-
-  <div *ngIf="question.questionType === 'NUMBER'" class="form-group">
-    <label for="question-min">Minimum érték:</label>
-    <input type="number" class="form-control" id="question-min" [(ngModel)]="question.min">
-    <label for="question-max">Maximum érték:</label>
-    <input type="number" class="form-control" id="question-max" [(ngModel)]="question.max">
-  </div>
+<div *ngIf="question.questionType === 'NUMBER'" class="form-group">
+  <label for="question-min">Minimum érték:</label>
+  <input type="number" class="form-control" id="question-min" [(ngModel)]="question.min">
+  <label for="question-max">Maximum érték:</label>
+  <input type="number" class="form-control" id="question-max" [(ngModel)]="question.max">
+</div>
 
 
-  <div *ngIf="question.questionType === 'DATE'" class="form-group">
-    <label for="question-min-date">Minimum érték:</label>
-    <input type="date" class="form-control" id="question-min-date" [(ngModel)]="question.minDate">
-    <label for="question-max-date">Maximum érték:</label>
-    <input type="date" class="form-control" id="question-max-date" [(ngModel)]="question.maxDate">
-  </div>
+<div *ngIf="question.questionType === 'DATE'" class="form-group">
+  <label for="question-min-date">Minimum érték:</label>
+  <input type="date" class="form-control" id="question-min-date" [(ngModel)]="question.minDate">
+  <label for="question-max-date">Maximum érték:</label>
+  <input type="date" class="form-control" id="question-max-date" [(ngModel)]="question.maxDate">
+</div>
 
-  <div *ngIf="question.questionType === 'SIMPLE_CHOICE' || question.questionType === 'MULTI_CHOICE'"
-       class="form-group">
-    <label>Válaszlehetőségek:</label>
-    <app-answer-options [options]="question.options"></app-answer-options>
-  </div>
+<div *ngIf="question.questionType === 'SIMPLE_CHOICE' || question.questionType === 'MULTI_CHOICE'"
+     class="form-group">
+  <label>Válaszlehetőségek:</label>
+  <app-answer-options [options]="question.options"></app-answer-options>
 </div>

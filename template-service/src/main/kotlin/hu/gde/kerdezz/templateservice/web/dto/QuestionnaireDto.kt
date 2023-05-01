@@ -6,10 +6,11 @@ import hu.gde.kerdezz.templateservice.domain.Visibility
 
 data class QuestionnaireDto(
   val id: String?,
+  val name: String,
+  val text: String?,
   val anonymous: Boolean,
   val multiCompletion: Boolean,
   val visibility: Visibility,
-  val name: String,
   val questions: List<QuestionDto>?
 )
 
@@ -17,6 +18,7 @@ fun mapDtoToSurvey(dto: QuestionnaireDto): Survey {
   return Survey(
     dto.id,
     dto.name,
+    dto.text,
     dto.anonymous,
     dto.multiCompletion,
     dto.visibility,
@@ -39,10 +41,11 @@ fun mapToQuestion(questionDto: QuestionDto): Question {
 fun mapSurveyToDto(survey: Survey): QuestionnaireDto {
   return QuestionnaireDto(
     survey.id,
+    survey.name,
+    survey.text,
     survey.isAnonymous,
     survey.isMultiple,
     survey.visibility,
-    survey.name,
     survey.questions.map { mapQuestionToDto(it) }
   )
 }
