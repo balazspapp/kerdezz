@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {SurveyTemplateService} from "../service/survey-template.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Question, Survey} from "../domain/survey";
+import {map} from "rxjs";
 
 @Component({
   selector: 'app-edit-survey',
@@ -12,13 +13,51 @@ export class SurveyEditorComponent {
   survey: Survey;
   newQuestion: Question = SurveyEditorComponent.getNewQuestion();
 
-  constructor(private surveyService: SurveyTemplateService, private router: Router) {
-    this.survey = {
-      name: '',
-      anonymous: false,
-      multiCompletion: false,
-      visibility:'public',
-      questions: [SurveyEditorComponent.getNewQuestion()]
+  constructor(
+    private surveyService: SurveyTemplateService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+  }
+
+  ngOnInit() {
+    // this.route.params
+    //   .pipe(map((params) => params['id']))
+    //   .subscribe(id => {
+    //     this.surveyService.getSurvey(id).subscribe((survey: Survey) => {
+    //       this.survey = survey;
+    //     });
+    //   });
+    let surveyId = this.route.snapshot.paramMap.get('id');
+    console.log('surveyId: {}', surveyId);
+    if (surveyId) {
+      this.surveyService.getSurvey(surveyId).subscribe({
+        next: (survey) => {
+          console.log(survey);
+          this.survey = survey;
+        },
+        error: (error) => {
+          console.error(error);
+          this.survey = {
+            name: '',
+            anonymous: false,
+            multiCompletion: false,
+            visibility: 'public',
+            questions: [SurveyEditorComponent.getNewQuestion()]
+          }
+        },
+        complete: () => {
+          console.log("saved complete");
+        }
+      });
+    } else {
+      this.survey = {
+        name: '',
+        anonymous: false,
+        multiCompletion: false,
+        visibility: 'public',
+        questions: [SurveyEditorComponent.getNewQuestion()]
+      }
     }
   }
 

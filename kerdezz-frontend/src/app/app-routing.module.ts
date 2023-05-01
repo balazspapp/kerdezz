@@ -8,6 +8,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: '', component: HomeComponent},
   {path: 'edit-survey', component: SurveyEditorComponent},
+  {path: 'edit-survey/:id', component: SurveyEditorComponent},
 ];
 
 @NgModule({
