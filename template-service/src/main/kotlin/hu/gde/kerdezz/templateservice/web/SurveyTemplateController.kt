@@ -23,9 +23,10 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
   }
 
   @GetMapping
-  fun getTemplates(): ResponseEntity<Page<QuestionnaireDto>> {
-    logger.info("get questionnaires")
-    val surveys = surveyRepository.findAll(PageRequest.of(0, 10))
+  fun getTemplates(@RequestParam(required = false, defaultValue = "1") page: Int): ResponseEntity<Page<QuestionnaireDto>> {
+    logger.info("get questionnaires for page: {}", page)
+    val pageSize = 10
+    val surveys = surveyRepository.findAll(PageRequest.of(page - 1, pageSize))
     val dtos = surveys.map { mapSurveyToDto(it) }
     return ResponseEntity.ok(dtos)
   }
