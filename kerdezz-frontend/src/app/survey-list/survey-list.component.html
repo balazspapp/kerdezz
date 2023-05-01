@@ -10,7 +10,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let survey of surveys">
+  <tr *ngFor="let survey of surveys" (click)="goToEditSurvey(survey.id)" class="clickable">
     <td>{{survey.name}}</td>
     <td>{{survey.anonymous ? 'Igen' : 'Nem'}}</td>
     <td>{{survey.multiCompletion ? 'Egyszeri' : 'Többszöri'}}</td>

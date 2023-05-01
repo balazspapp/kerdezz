@@ -3,3 +3,6 @@
   border: 2px solid #ccc;
   border-radius: 0;
 }
+.clickable:hover {
+  cursor: pointer;
+}

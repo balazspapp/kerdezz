@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {SurveyTemplateService} from '../service/survey-template.service';
 import {Survey} from "../domain/survey";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-survey-list',
@@ -12,7 +13,7 @@ export class SurveyListComponent {
   totalPages: number;
   pageNumber: number = 1;
 
-  constructor(public surveyTemplateService: SurveyTemplateService) {
+  constructor(private surveyTemplateService: SurveyTemplateService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -35,4 +36,9 @@ export class SurveyListComponent {
         }
       });
   }
+
+  goToEditSurvey(id: string) {
+    this.router.navigate(['edit-survey', id]);
+  }
+
 }
