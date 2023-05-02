@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {SurveyTemplateService} from "../service/survey-template.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Question, Survey} from "../domain/survey";
-import {map} from "rxjs";
 
 @Component({
   selector: 'app-edit-survey',
@@ -10,8 +9,8 @@ import {map} from "rxjs";
   styleUrls: ['./survey-editor.component.css']
 })
 export class SurveyEditorComponent {
-  survey: Survey;
-  newQuestion: Question = SurveyEditorComponent.getNewQuestion();
+  survey: Survey = getNewSurvey();
+  newQuestion: Question = getNewQuestion();
 
   constructor(
     private surveyService: SurveyTemplateService,
@@ -31,26 +30,13 @@ export class SurveyEditorComponent {
         },
         error: (error) => {
           console.error(error);
-          this.survey = {
-            name: '',
-            anonymous: false,
-            multiCompletion: false,
-            visibility: 'public',
-            questions: [SurveyEditorComponent.getNewQuestion()]
-          }
         },
         complete: () => {
           console.log("saved complete");
         }
       });
     } else {
-      this.survey = {
-        name: '',
-        anonymous: false,
-        multiCompletion: false,
-        visibility: 'public',
-        questions: [SurveyEditorComponent.getNewQuestion()]
-      }
+      this.survey = getNewSurvey()
     }
   }
 
@@ -73,18 +59,7 @@ export class SurveyEditorComponent {
 
   addQuestion() {
     this.survey.questions.push(this.newQuestion);
-    this.newQuestion = SurveyEditorComponent.getNewQuestion();
-  }
-
-  private static getNewQuestion(): Question {
-    return {
-      questionText: '',
-      questionType: '',
-      required: false,
-      options: [],
-      min: NaN,
-      max: NaN
-    };
+    this.newQuestion = getNewQuestion();
   }
 
   removeQuestion(index: number) {
@@ -92,6 +67,27 @@ export class SurveyEditorComponent {
   }
 
   resetQuestion() {
-    this.newQuestion = SurveyEditorComponent.getNewQuestion();
+    this.newQuestion = getNewQuestion();
   }
+}
+
+function getNewQuestion(): Question {
+  return {
+    questionText: '',
+    questionType: '',
+    required: false,
+    options: [],
+    min: NaN,
+    max: NaN
+  };
+}
+
+function getNewSurvey() {
+  return {
+    name: '',
+    anonymous: false,
+    multiCompletion: false,
+    visibility: 'public',
+    questions: [getNewQuestion()]
+  };
 }

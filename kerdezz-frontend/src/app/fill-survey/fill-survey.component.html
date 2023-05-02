@@ -1,42 +1,54 @@
 <div *ngIf="template">
   <h2>{{ template.name }}</h2>
-  <div>
-    <div *ngFor="let question of template.questions">
-      <div *ngIf="question.questionType === 'SIMPLE_CHOICE'">
-        <h4>{{ question.questionText }}</h4>
-        <div *ngFor="let option of question.options">
-          <label>
-            <input type="radio" name="{{ question.id }}" [value]="option.value" [(ngModel)]="answers[question.id]"> {{ option.value }}
-          </label>
-        </div>
+  <form [formGroup]="surveyForm" (submit)="submitForm()" class="container">
+    <ng-container *ngFor="let question of questions">
+      <div [formGroup]="getFormGroup(question)" class="mb-3">
+        <label class="form-label">{{ question.questionText }}</label>
+        <ng-container *ngIf="question.questionType === 'MULTI_CHOICE'; else simpleQuestion">
+          <div formArrayName="multiValue">
+            <div *ngFor="let option of question.options; let i = index" class="form-check">
+              <input type="checkbox" [formControlName]="i" class="form-check-input"/>{{ option.value }}
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #simpleQuestion>
+          <ng-container *ngIf="question.questionType === 'SIMPLE_CHOICE'; else dateQuestion">
+            <div>
+              <select formControlName="value" class="form-select">
+                <option *ngFor="let option of question.options" [value]="option.value">{{ option.value }}</option>
+              </select>
+            </div>
+          </ng-container>
+          <ng-template #dateQuestion>
+            <ng-container *ngIf="question.questionType === 'DATE'; else numberQuestion">
+              <div>
+                <input type="date" formControlName="value" [min]="question.minDate" [max]="question.maxDate" class="form-control"/>
+              </div>
+            </ng-container>
+          </ng-template>
+          <ng-template #numberQuestion>
+            <ng-container *ngIf="question.questionType === 'NUMBER'; else emailQuestion">
+              <div>
+                <input type="number" formControlName="value" [min]="question.min ?? null" [max]="question.max ?? null" class="form-control"/>
+              </div>
+            </ng-container>
+          </ng-template>
+          <ng-template #emailQuestion>
+            <ng-container *ngIf="question.questionType === 'EMAIL'; else openQuestion">
+              <div>
+                <input type="email" formControlName="value" class="form-control"/>
+              </div>
+            </ng-container>
+          </ng-template>
+          <ng-template #openQuestion>
+            <div>
+              <input type="text" formControlName="value" class="form-control"/>
+            </div>
+          </ng-template>
+        </ng-template>
       </div>
-      <div *ngIf="question.questionType === 'MULTI_CHOICE'">
-        <h4>{{ question.questionText }}</h4>
-        <div *ngFor="let option of question.options">
-          <label>
-            <input type="checkbox" name="{{ question.id }}" [value]="option.value"
-                   [(ngModel)]="answers[question.id][option.value].multiValue"> {{ option.value }}
-          </label>
-        </div>
-      </div>
-      <div *ngIf="question.questionType === 'OPEN_TEXT'">
-        <h4>{{ question.questionText }}</h4>
-        <textarea [(ngModel)]="answers[question.id].value"></textarea>
-      </div>
-      <div *ngIf="question.questionType === 'DATE'">
-        <h4>{{ question.questionText }}</h4>
-        <input type="date" [(ngModel)]="answers[question.id].value">
-      </div>
-      <div *ngIf="question.questionType === 'NUMBER'">
-        <h4>{{ question.questionText }}</h4>
-        <input type="number" [(ngModel)]="answers[question.id].value">
-      </div>
-      <div *ngIf="question.questionType === 'EMAIL'">
-        <h4>{{ question.questionText }}</h4>
-        <input type="email" [(ngModel)]="answers[question.id].value">
-      </div>
-      <br>
-    </div>
-    <button (click)="saveAnswer()">Mentés</button>
-  </div>
+    </ng-container>
+    <button type="submit" [disabled]="!surveyForm.valid" class="btn btn-primary">Submit</button>
+  </form>
+
 </div>

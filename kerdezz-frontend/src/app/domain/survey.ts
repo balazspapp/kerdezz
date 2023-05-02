@@ -1,5 +1,5 @@
 export interface Survey {
-  id?: number;
+  id?: string;
   name: string;
   anonymous: boolean;
   multiCompletion: boolean;
