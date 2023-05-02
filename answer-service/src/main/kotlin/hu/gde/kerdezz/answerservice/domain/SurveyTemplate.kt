@@ -6,23 +6,25 @@ data class SurveyTemplate(
   val id: String?,
   val name: String,
   val text: String?,
-  val isAnonymous: Boolean,
-  val isMultiple: Boolean,
+  val anonymous: Boolean,
+  val multiCompletion: Boolean,
   val visibility: Visibility,
-  val questions: List<Question>
+  val questions: List<Question>?
 )
 
 data class Question(
   val id: String?,
   val required: Boolean = false,
-  val type: QuestionType,
-  val text: String,
-  val options: List<String>?,
-  val min: Int?,
-  val max: Int?,
+  val questionText: String,
+  val questionType: QuestionType,
+  val options: List<OptionDto>?,
+  val minValue: Int?,
+  val maxValue: Int?,
   val minDate: LocalDate?,
   val maxDate: LocalDate?
 )
+
+data class OptionDto (val value: String)
 
 enum class QuestionType {
   SIMPLE_CHOICE, MULTI_CHOICE, OPEN_TEXT, DATE, NUMBER, EMAIL
