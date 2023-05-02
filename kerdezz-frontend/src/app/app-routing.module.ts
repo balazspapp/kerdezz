@@ -4,10 +4,12 @@ import {LoginComponent} from "./login/login.component";
 import {HomeComponent} from "./home/home.component";
 import {SurveyEditorComponent} from "./survey-editor/survey-editor.component";
 import {FillSurveyComponent} from "./fill-survey/fill-survey.component";
+import {SurveyListComponent} from "./survey-list/survey-list.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: '', component: HomeComponent},
+  {path: 'survey-list', component: SurveyListComponent},
   {path: 'edit-survey', component: SurveyEditorComponent},
   {path: 'edit-survey/:id', component: SurveyEditorComponent},
   {path: 'fill-survey/:id', component: FillSurveyComponent}

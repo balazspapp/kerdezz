@@ -1,29 +1,34 @@
-<h2>Kérdőívek listája</h2>
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>Név</th>
-    <th>Anonim válaszadás</th>
-    <th>Kitölthetőség</th>
-    <th>Láthatóság</th>
-    <th>Műveletek</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let survey of surveys" (click)="goToEditSurvey(survey.id)" class="clickable">
-    <td>{{survey.name}}</td>
-    <td>{{survey.anonymous ? 'Igen' : 'Nem'}}</td>
-    <td>{{survey.multiCompletion ? 'Egyszeri' : 'Többszöri'}}</td>
-    <td>
-      <ng-container [ngSwitch]="survey.visibility">
-        <i *ngSwitchCase="'public'" class="bi-unlock-fill"></i>
-        <i *ngSwitchCase="'invite_only'" class="bi-lock-fill"></i>
-        <i *ngSwitchCase="'private'" class="bi-eye-slash-fill"></i>
-      </ng-container>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<h2>Kérdőívek</h2>
+<div class="table-responsive text-nowrap" >
+  <table class="table table-striped table-hover">
+    <thead>
+    <tr>
+      <th>Név</th>
+      <th>Anonim</th>
+      <th>Kitölthetőség</th>
+      <th>Láthatóság</th>
+      <th>Kitöltés</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let survey of surveys" (click)="goToEditSurvey(survey.id)" class="clickable">
+      <td>{{survey.name}}</td>
+      <td>{{survey.anonymous ? 'Igen' : 'Nem'}}</td>
+      <td>{{survey.multiCompletion ? 'Egyszeri' : 'Többszöri'}}</td>
+      <td>
+        <ng-container [ngSwitch]="survey.visibility">
+          <i *ngSwitchCase="'public'" class="bi-unlock-fill"></i>
+          <i *ngSwitchCase="'invite_only'" class="bi-lock-fill"></i>
+          <i *ngSwitchCase="'private'" class="bi-eye-slash-fill"></i>
+        </ng-container>
+      </td>
+      <td>
+        <button (click)="goToFillSurvey(survey.id, $event)" class="btn btn-outline-dark">Kitöltöm</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
 <ngb-pagination
   [(page)]="pageNumber"

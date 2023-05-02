@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {SurveyTemplateService} from '../service/survey-template.service';
-import {Survey} from "../domain/survey";
 import {Router} from "@angular/router";
 
 @Component({
@@ -41,4 +40,8 @@ export class SurveyListComponent {
     this.router.navigate(['edit-survey', id]);
   }
 
+  goToFillSurvey(surveyId: string, $event: MouseEvent) {
+    $event.stopPropagation();
+    this.router.navigate(['/fill-survey', surveyId]);
+  }
 }

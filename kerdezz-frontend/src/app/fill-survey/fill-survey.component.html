@@ -1,9 +1,9 @@
 <div *ngIf="template">
-  <h2>{{ template.name }}</h2>
+  <h2 class="mx-4">{{ template.name }}</h2>
   <form [formGroup]="surveyForm" (submit)="submitForm()" class="container">
-    <ng-container *ngFor="let question of questions">
-      <div [formGroup]="getFormGroup(question)" class="mb-3 card p-3 m-2">
-        <label class="form-label">{{ question.questionText }}</label>
+    <ng-container *ngFor="let question of questions; let idx = index">
+      <div [formGroup]="getFormGroup(question)" class="mx-2 card p-3 my-3 shadow-sm">
+        <label class="form-label">{{ idx + 1 }}. {{ question.questionText }}</label>
         <ng-container *ngIf="question.questionType === 'MULTI_CHOICE'; else simpleQuestion">
           <div formArrayName="multiValue">
             <div *ngFor="let option of question.options; let i = index" class="form-check">

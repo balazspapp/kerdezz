@@ -4,13 +4,13 @@
       <input type="text" class="form-control" [(ngModel)]="options[i].value"/>
     </div>
     <div class="col-1">
-      <i (click)="removeOption(i)" class="bi-x-lg"></i>
+      <button class="btn btn-close" (click)="removeOption(i)"></button>
     </div>
   </div>
 
   <div class="row py-1">
     <div class="col-3">
-      <button class="btn btn-primary" (click)="addOption()"><i class="bi bi-arrow-return-right" (click)="addOption()"></i> Új lehetőség</button>
+      <button class="btn btn-light rounded-0" (click)="addOption()"><i class="bi bi-arrow-return-right" (click)="addOption()"></i> Új lehetőség</button>
     </div>
   </div>
 </div>
