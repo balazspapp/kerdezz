@@ -76,7 +76,6 @@ export class FillSurveyComponent implements OnInit {
         .subscribe(() => this.router.navigate(['/']));
     }
   }
-
   convertToAnswers(obj: any): Answer[] {
     const result: Answer[] = [];
 
@@ -85,8 +84,9 @@ export class FillSurveyComponent implements OnInit {
         const item = obj[key];
 
         if (item.multiValue) {
+          const question = this.questions.find(q => q.id === item.questionId);
           const multiValue: string[] = item.multiValue
-            .map((value: boolean, index: number) => (value ? index.toString() : null))
+            .map((value: boolean, index: number) => (value ? question?.options[index].value : null))
             .filter((value: string | null) => value !== null);
 
           result.push({

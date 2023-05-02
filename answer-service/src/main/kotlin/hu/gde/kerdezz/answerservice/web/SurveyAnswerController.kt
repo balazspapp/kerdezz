@@ -26,9 +26,9 @@ class SurveyAnswerController(
   @PostMapping("/answers")
   fun submitSurveyAnswers(@Valid @RequestBody surveyAnswer: SurveyAnswer): ResponseEntity<Unit> {
     val template = templateService.getTemplateById(surveyAnswer.surveyId)
-    logger.info("template id: {}, name: {}", template?.id, template?.name)
-    val valid = answerValidatorService.validate(surveyAnswer)
-    if (!valid) {
+    logger.info("template id: {}, name: {}", template.id, template.name)
+    if (!answerValidatorService.validate(surveyAnswer)) {
+      logger.warn("Invalid answer, templateId: {}", template.id)
       throw ResponseStatusException(HttpStatus.BAD_REQUEST)
     }
     surveyAnswerService.save(surveyAnswer)
