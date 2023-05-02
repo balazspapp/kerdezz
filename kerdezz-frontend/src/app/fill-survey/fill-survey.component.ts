@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {FormGroup, FormBuilder, FormControl, Validators, FormArray} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {SurveyTemplateService} from '../service/survey-template.service';
 import {AnswerService} from '../service/answer.service';
-import {Answer, SurveyAnswer} from '../domain/survey-answer';
+import {Answer} from '../domain/survey-answer';
 import {Question, Survey} from "../domain/survey";
 
 @Component({
@@ -17,6 +17,7 @@ export class FillSurveyComponent implements OnInit {
   answersForm: FormGroup;
   surveyForm: FormGroup;
   questions: Question[];
+
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
@@ -70,6 +71,10 @@ export class FillSurveyComponent implements OnInit {
   submitForm() {
     const answers: Answer[] = this.convertToAnswers(this.surveyForm.value);
     console.log(answers);
+    if (this.template.id) {
+      this.answerService.saveAnswers({surveyId: this.template.id, answers: answers})
+        .subscribe(() => this.router.navigate(['/']));
+    }
   }
 
   convertToAnswers(obj: any): Answer[] {
