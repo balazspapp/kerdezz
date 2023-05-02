@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
 .card {
   border: 2px solid #ccc;
   border-radius: 0;
