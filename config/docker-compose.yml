@@ -10,4 +10,47 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    command: ["start-dev"]
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8181:8080"
 
+#  keycloak:
+#    image: quay.io/keycloak/keycloak:21.1.1
+#    command: start-dev
+#    environment:
+#      DB_VENDOR: mssql
+#      DB_ADDR: mssql
+#      DB_DATABASE: keycloak
+#      DB_USER: sa
+#      DB_PASSWORD: P4SSw0rd
+#      KEYCLOAK_USER: admin
+#      KEYCLOAK_PASSWORD: admin
+#      #      KEYCLOAK_IMPORT: /tmp/realm-export.json
+#      KEYCLOAK_ADMIN: admin
+#      KEYCLOAK_ADMIN_PASSWORD: admin
+#      KEYCLOAK_LOGLEVEL: DEBUG
+#    #    volumes:
+#    #      - ./realm-export.json:/tmp/realm-export.json
+#    ports:
+#      - "8084:8080"
+#    depends_on:
+#      - mssql
+#
+#  mssql:
+#    image: mcr.microsoft.com/mssql/server:2019-latest
+#    user: root
+#    environment:
+#      ACCEPT_EULA: Y
+#      SA_PASSWORD: P4SSw0rd
+#    volumes:
+#      - mssql-data:/var/opt/mssql/data
+#    ports:
+#      - "1433:1433"
+#
+#volumes:
+#  mssql-data: {}

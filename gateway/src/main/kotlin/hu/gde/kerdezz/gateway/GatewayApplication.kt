@@ -3,24 +3,23 @@ package hu.gde.kerdezz.gateway
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
-import org.springframework.cloud.gateway.route.RouteLocator
-import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
 import org.springframework.context.annotation.Bean
+import org.springframework.security.config.web.server.ServerHttpSecurity
+import org.springframework.security.web.server.SecurityWebFilterChain
 
 @SpringBootApplication
 @EnableDiscoveryClient
 class GatewayApplication {
   @Bean
-  fun gatewayRoutes(builder: RouteLocatorBuilder): RouteLocator = builder.routes()
-    .route("templateService") { r ->
-      r.path("/api/templates/**")
-        .uri("http://localhost:8082")
-    }
-    .route("answerService") { r ->
-      r.path("/api/surveys/**")
-        .uri("http://localhost:8083")
-    }
-    .build()
+  fun customSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+    return http
+      .authorizeExchange().anyExchange().authenticated()
+      .and()
+      .oauth2Login()
+      .and()
+      .csrf().disable()
+      .build()
+  }
 }
 
 fun main(args: Array<String>) {

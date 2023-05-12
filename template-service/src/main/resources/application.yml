@@ -9,7 +9,11 @@ spring:
       host: 127.0.0.1
       port: 27017
       database: surveytemplatedb
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8181/realms/kerdezz-realm
 eureka:
   client:
     service-url:
@@ -19,4 +23,8 @@ management:
     web:
       exposure:
         include: '*'
-
+logging:
+  level:
+    root: INFO
+    org.springframework.web: TRACE
+    org.springframework.security: TRACE

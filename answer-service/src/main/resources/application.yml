@@ -1,6 +1,16 @@
 spring:
   application:
     name: answer-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8181/realms/kerdezz-realm
 server:
   port: 8083
 template-service-url: http://template-service/api/templates
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: TRACE
