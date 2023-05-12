@@ -25,9 +25,9 @@
 
 <div *ngIf="question.questionType === 'NUMBER'" class="form-group">
   <label for="question-min">Minimum érték:</label>
-  <input type="number" class="form-control" id="question-min" [(ngModel)]="question.min">
+  <input type="number" class="form-control" id="question-min" [(ngModel)]="question.minValue">
   <label for="question-max">Maximum érték:</label>
-  <input type="number" class="form-control" id="question-max" [(ngModel)]="question.max">
+  <input type="number" class="form-control" id="question-max" [(ngModel)]="question.maxValue">
 </div>
 
 

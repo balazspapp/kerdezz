@@ -77,8 +77,8 @@ function getNewQuestion(): Question {
     questionType: '',
     required: false,
     options: [],
-    min: NaN,
-    max: NaN
+    minValue: NaN,
+    maxValue: NaN
   };
 }
 

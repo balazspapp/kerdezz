@@ -29,7 +29,7 @@
           <ng-template #numberQuestion>
             <ng-container *ngIf="question.questionType === 'NUMBER'; else emailQuestion">
               <div>
-                <input type="number" formControlName="value" [min]="question.min ?? null" [max]="question.max ?? null" class="form-control"/>
+                <input type="number" formControlName="value" [min]="question.minValue ?? null" [max]="question.maxValue ?? null" class="form-control"/>
               </div>
             </ng-container>
           </ng-template>
