@@ -24,7 +24,11 @@ spring:
         provider:
           auth-server:
             issuer-uri: http://localhost:8181/realms/kerdezz-realm
-
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      database: answerdb
 # Logging
 logging:
   level:

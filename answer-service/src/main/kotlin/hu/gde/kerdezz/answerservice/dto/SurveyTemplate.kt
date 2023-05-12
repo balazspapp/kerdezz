@@ -17,14 +17,14 @@ data class Question(
   val required: Boolean = false,
   val questionText: String,
   val questionType: QuestionType,
-  val options: List<OptionDto>?,
+  val options: List<Option>?,
   val minValue: Int?,
   val maxValue: Int?,
   val minDate: LocalDate?,
   val maxDate: LocalDate?
 )
 
-data class OptionDto (val value: String)
+data class Option (val value: String)
 
 enum class QuestionType {
   SIMPLE_CHOICE, MULTI_CHOICE, OPEN_TEXT, DATE, NUMBER, EMAIL

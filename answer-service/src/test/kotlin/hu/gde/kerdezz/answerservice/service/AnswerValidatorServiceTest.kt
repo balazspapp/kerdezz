@@ -1,10 +1,12 @@
 package hu.gde.kerdezz.answerservice.service
 
 import hu.gde.kerdezz.answerservice.domain.*
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import hu.gde.kerdezz.answerservice.dto.AnswerDto
+import hu.gde.kerdezz.answerservice.dto.SurveyAnswerRequest
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import java.time.LocalDate
 
@@ -42,10 +44,10 @@ internal class AnswerValidatorServiceTest {
         )
       )
     )
-    val surveyAnswer = SurveyAnswer(
+    val surveyAnswer = SurveyAnswerRequest(
       surveyId = "survey_id",
       answers = mutableListOf(
-        Answer(questionId = "numberQuestion", value = "2", multiValue = null),
+        AnswerDto(questionId = "numberQuestion", value = "2", multiValue = null),
       )
     )
 
@@ -80,7 +82,7 @@ internal class AnswerValidatorServiceTest {
     required = true,
     questionText = "What is your favorite color?",
     questionType = QuestionType.SIMPLE_CHOICE,
-    options = listOf(OptionDto("Red"), OptionDto("Blue"), OptionDto("Green")),
+    options = listOf(Option("Red"), Option("Blue"), Option("Green")),
     minValue = null,
     maxValue = null,
     minDate = null,
@@ -92,7 +94,7 @@ internal class AnswerValidatorServiceTest {
     required = true,
     questionText = "Select your hobbies:",
     questionType = QuestionType.MULTI_CHOICE,
-    options = listOf(OptionDto("Reading"), OptionDto("Sports"), OptionDto("Traveling")),
+    options = listOf(Option("Reading"), Option("Sports"), Option("Traveling")),
     minValue = null,
     maxValue = null,
     minDate = null,
@@ -153,15 +155,15 @@ internal class AnswerValidatorServiceTest {
     )
   }
 
-  fun createSurveyAnswer(): SurveyAnswer {
-    return SurveyAnswer(
+  fun createSurveyAnswer(): SurveyAnswerRequest {
+    return SurveyAnswerRequest(
       surveyId = "survey_id",
       answers = mutableListOf(
-        Answer(questionId = "question_1", value = "Red", multiValue = null),
-        Answer(questionId = "question_2", value = null, multiValue = listOf("Reading", "Traveling")),
-        Answer(questionId = "dateQuestion", value = "2020-01-01", multiValue = null),
-        Answer(questionId = "dateQuestion2", value = "2020-01-02", multiValue = null),
-        Answer(questionId = "numberQuestion", value = "2", multiValue = null),
+        AnswerDto(questionId = "question_1", value = "Red", multiValue = null),
+        AnswerDto(questionId = "question_2", value = null, multiValue = listOf("Reading", "Traveling")),
+        AnswerDto(questionId = "dateQuestion", value = "2020-01-01", multiValue = null),
+        AnswerDto(questionId = "dateQuestion2", value = "2020-01-02", multiValue = null),
+        AnswerDto(questionId = "numberQuestion", value = "2", multiValue = null),
       )
     )
   }
