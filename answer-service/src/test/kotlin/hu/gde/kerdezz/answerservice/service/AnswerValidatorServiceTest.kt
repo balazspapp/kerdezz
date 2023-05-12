@@ -49,7 +49,7 @@ internal class AnswerValidatorServiceTest {
       )
     )
 
-    Mockito.`when`(surveyTemplateService.getTemplateById("survey_id")).thenReturn(surveyTemplate)
+    Mockito.`when`(surveyTemplateService.getSurveyById("survey_id")).thenReturn(surveyTemplate)
 
     // Act
     val result = answerValidatorService.validate(surveyAnswer)
@@ -66,7 +66,7 @@ internal class AnswerValidatorServiceTest {
     val answers = surveyAnswer.answers as MutableList // Remove answer for the required question
     answers.removeAt(0);
 
-    Mockito.`when`(surveyTemplateService.getTemplateById("survey_id")).thenReturn(surveyTemplate)
+    Mockito.`when`(surveyTemplateService.getSurveyById("survey_id")).thenReturn(surveyTemplate)
 
     // Act
     val result = answerValidatorService.validate(surveyAnswer)

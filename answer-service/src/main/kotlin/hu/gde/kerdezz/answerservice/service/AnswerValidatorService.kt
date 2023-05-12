@@ -13,7 +13,7 @@ class AnswerValidatorService(
 ) {
 
   fun validate(surveyAnswer: SurveyAnswer): Boolean {
-    val surveyTemplate = surveyTemplateService.getTemplateById(surveyAnswer.surveyId)
+    val surveyTemplate = surveyTemplateService.getSurveyById(surveyAnswer.surveyId)
 
     if (isAllRequiredQuestionsAnswered(surveyTemplate, surveyAnswer) == false) {
       return false
