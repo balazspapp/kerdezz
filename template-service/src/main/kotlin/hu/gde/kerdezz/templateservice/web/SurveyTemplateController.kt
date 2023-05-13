@@ -1,5 +1,6 @@
 package hu.gde.kerdezz.templateservice.web
 
+import hu.gde.kerdezz.templateservice.domain.Visibility
 import hu.gde.kerdezz.templateservice.repository.SurveyRepository
 import hu.gde.kerdezz.templateservice.web.dto.SurveyDto
 import hu.gde.kerdezz.templateservice.web.dto.mapDtoToSurvey
@@ -40,7 +41,9 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
   fun getTemplates(@RequestParam(required = false, defaultValue = "0") page: Int): ResponseEntity<Page<SurveyDto>> {
     logger.info("get questionnaires for page: {}", page)
     val pageSize = 10
-    val surveys = surveyRepository.findAll(PageRequest.of(page, pageSize))
+    val user = getCurrentUser()
+    surveyRepository.findAll(PageRequest.of(page, pageSize))
+    val surveys = surveyRepository.findByVisibilityOrUser(Visibility.public, user, PageRequest.of(page, pageSize))
     val dtos = surveys.map { it.mapSurveyToDto() }
     return ResponseEntity.ok(dtos)
   }
@@ -59,10 +62,3 @@ fun getCurrentUser(): String {
 }
 
 
-//val currentUser = getCurrentUser()
-//if (request.id == null) {
-//  surveyRepository.save(request.mapDtoToSurvey(currentUser))
-//} else {
-//  val oldSurvey = surveyRepository.findById(request.id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST))
-//  if (oldSurvey.isPresent && currentUser == oldSurvey.)
-//}
