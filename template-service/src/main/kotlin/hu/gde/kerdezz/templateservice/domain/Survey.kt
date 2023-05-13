@@ -1,11 +1,14 @@
 package hu.gde.kerdezz.templateservice.domain
 
 import org.springframework.data.mongodb.core.mapping.Document
+import java.time.Instant
 import java.time.LocalDate
 
 @Document("surveyTemplates")
 data class Survey(
   val id: String?,
+  val user: String,
+  val createdAt: Instant = Instant.now(),
   val name: String,
   val text: String?,
   val isAnonymous: Boolean,

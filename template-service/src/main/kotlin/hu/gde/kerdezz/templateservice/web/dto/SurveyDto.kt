@@ -5,25 +5,27 @@ import hu.gde.kerdezz.templateservice.domain.Survey
 import hu.gde.kerdezz.templateservice.domain.Visibility
 import java.util.UUID
 
-data class QuestionnaireDto(
+data class SurveyDto(
   val id: String?,
   val name: String,
   val text: String?,
   val anonymous: Boolean,
   val multiCompletion: Boolean,
   val visibility: Visibility,
-  val questions: List<QuestionDto>?
+  val questions: List<QuestionDto>?,
+  val editable: Boolean = false
 )
 
-fun QuestionnaireDto.mapDtoToSurvey(): Survey {
+fun SurveyDto.mapDtoToSurvey(user: String): Survey {
   return Survey(
-    this.id,
-    this.name,
-    this.text,
-    this.anonymous,
-    this.multiCompletion,
-    this.visibility,
-    this.questions?.map { it.mapToQuestion() } ?: listOf()
+    id = this.id,
+    user = user,
+    name = this.name,
+    text = this.text,
+    isAnonymous = this.anonymous,
+    isMultiple = this.multiCompletion,
+    visibility = this.visibility,
+    questions = this.questions?.map { it.mapToQuestion() } ?: listOf()
   )
 }
 
@@ -41,8 +43,8 @@ fun  QuestionDto.mapToQuestion(): Question {
   )
 }
 
-fun Survey.mapSurveyToDto(): QuestionnaireDto {
-  return QuestionnaireDto(
+fun Survey.mapSurveyToDto(): SurveyDto {
+  return SurveyDto(
     this.id,
     this.name,
     this.text,

@@ -7,7 +7,7 @@ import hu.gde.kerdezz.templateservice.domain.Visibility
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class QuestionnaireDtoKtTest {
+internal class SurveyDtoKtTest {
   private val question = Question(
     "id",
     true,
@@ -34,20 +34,28 @@ internal class QuestionnaireDtoKtTest {
 
   @Test
   fun mapDtoToSurvey() {
-    val questionnaireDto = QuestionnaireDto(
+    val surveyDto = SurveyDto(
       id = null,
+      name = "Name",
       anonymous = false,
       multiCompletion = false,
       visibility = Visibility.private,
-      name = "Name",
-      questions = listOf(questionDto),
-      text = "text"
+      text = "text",
+      questions = listOf(questionDto)
     )
-    val actual = questionnaireDto.mapDtoToSurvey()
     val expected = Survey(
-      id = null, name = "Name", isAnonymous = false, isMultiple = false, visibility = Visibility.private, text = "text",
+      id = null,
+      user = "userid",
+      name = "Name",
+      isAnonymous = false,
+      isMultiple = false,
+      visibility = Visibility.private,
+      text = "text",
       questions = listOf(question)
     )
+
+    val actual = surveyDto.mapDtoToSurvey("userid")
+
     assertEquals(expected, actual)
   }
 

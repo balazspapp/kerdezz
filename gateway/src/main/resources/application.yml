@@ -14,6 +14,7 @@ spring:
             authorization-grant-type: authorization_code
             redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}"
             scope: openid, template.read, template.write
+
         provider:
           my-provider:
             issuer-uri: http://localhost:8181/realms/kerdezz-realm
@@ -38,6 +39,10 @@ spring:
           uri: lb://discovery-server
           predicates:
             - Path=/eureka/**
+        - id: logoutRoute
+          uri: http://localhost:8181/realms/kerdezz-realm/protocol/openid-connect/logout?post_logout_redirect_uri=http://localhost:8080&client_id=kerdezz-client
+          predicates:
+            - Path=/kerdezz/logout
       default-filters:
         - TokenRelay=
 eureka:
