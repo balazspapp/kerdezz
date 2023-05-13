@@ -13,7 +13,8 @@ data class SurveyDto(
   val multiCompletion: Boolean,
   val visibility: Visibility,
   val questions: List<QuestionDto>?,
-  val editable: Boolean = false
+  val editable: Boolean = false,
+  val invitedUsers: List<String>?
 )
 
 fun SurveyDto.mapDtoToSurvey(user: String): Survey {
@@ -25,17 +26,18 @@ fun SurveyDto.mapDtoToSurvey(user: String): Survey {
     isAnonymous = this.anonymous,
     isMultiple = this.multiCompletion,
     visibility = this.visibility,
-    questions = this.questions?.map { it.mapToQuestion() } ?: listOf()
+    questions = this.questions?.map { it.mapToQuestion() } ?: listOf(),
+    invitedUsers = if (this.visibility == Visibility.invite_only) this.invitedUsers else null
   )
 }
 
-fun  QuestionDto.mapToQuestion(): Question {
+fun QuestionDto.mapToQuestion(): Question {
   return Question(
-    id = this.id?: UUID.randomUUID().toString(),
+    id = this.id ?: UUID.randomUUID().toString(),
     required = this.required,
     type = this.questionType,
     text = this.questionText,
-    options = this.options?.map{ it.value },
+    options = this.options?.map { it.value },
     min = this.minValue,
     max = this.maxValue,
     minDate = this.minDate,
@@ -43,7 +45,7 @@ fun  QuestionDto.mapToQuestion(): Question {
   )
 }
 
-fun Survey.mapSurveyToDto(): SurveyDto {
+fun Survey.mapSurveyToDto(editable: Boolean): SurveyDto {
   return SurveyDto(
     this.id,
     this.name,
@@ -51,7 +53,9 @@ fun Survey.mapSurveyToDto(): SurveyDto {
     this.isAnonymous,
     this.isMultiple,
     this.visibility,
-    this.questions.map { it.mapQuestionToDto() }
+    this.questions.map { it.mapQuestionToDto() },
+    editable,
+    if (visibility == Visibility.invite_only) this.invitedUsers else null
   )
 }
 

@@ -14,7 +14,8 @@ data class Survey(
   val isAnonymous: Boolean,
   val isMultiple: Boolean,
   val visibility: Visibility,
-  val questions: List<Question>
+  val questions: List<Question>,
+  val invitedUsers: List<String>?
 )
 
 data class Question(

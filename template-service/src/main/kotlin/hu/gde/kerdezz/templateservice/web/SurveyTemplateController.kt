@@ -1,5 +1,6 @@
 package hu.gde.kerdezz.templateservice.web
 
+import hu.gde.kerdezz.templateservice.domain.Survey
 import hu.gde.kerdezz.templateservice.domain.Visibility
 import hu.gde.kerdezz.templateservice.repository.SurveyRepository
 import hu.gde.kerdezz.templateservice.web.dto.SurveyDto
@@ -33,7 +34,9 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
         }
     }
 
-    surveyRepository.save(request.mapDtoToSurvey(currentUser))
+    val invitedUsers = if (request.visibility == Visibility.invite_only) request.invitedUsers else null
+    val survey = request.mapDtoToSurvey(currentUser).copy(invitedUsers = invitedUsers)
+    surveyRepository.save(survey)
     return ResponseEntity.ok().build()
   }
 
@@ -41,18 +44,20 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
   fun getTemplates(@RequestParam(required = false, defaultValue = "0") page: Int): ResponseEntity<Page<SurveyDto>> {
     logger.info("get questionnaires for page: {}", page)
     val pageSize = 10
-    val user = getCurrentUser()
+    val currentUser = getCurrentUser()
     surveyRepository.findAll(PageRequest.of(page, pageSize))
-    val surveys = surveyRepository.findByVisibilityOrUser(Visibility.public, user, PageRequest.of(page, pageSize))
-    val dtos = surveys.map { it.mapSurveyToDto() }
+    val surveys = surveyRepository.findByVisibilityOrUser(Visibility.public, currentUser, PageRequest.of(page, pageSize))
+    val dtos = surveys.map { it.mapSurveyToDto(isSurveyEditable(it, currentUser)) }
     return ResponseEntity.ok(dtos)
   }
+
+  private fun isSurveyEditable(it: Survey, currentUser: String) = it.user == currentUser
 
   @GetMapping("/{id}")
   fun getTemplate(@PathVariable id: String): ResponseEntity<SurveyDto> {
     logger.info("get questionnaire with id: {}", id)
     val survey = surveyRepository.findById(id)
-    return survey.map { ResponseEntity.ok(it.mapSurveyToDto()) }
+    return survey.map { ResponseEntity.ok(it.mapSurveyToDto(false)) }
       .orElse(ResponseEntity.notFound().build())
   }
 }
