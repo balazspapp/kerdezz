@@ -14,6 +14,10 @@ export class AppComponent {
   }
 
   logout() {
-    window.location.href = '/logout';
+    window.location.href = '/kerdezz/logout';
+  }
+
+  toAccount() {
+    window.location.href = '/kerdezz/account';
   }
 }

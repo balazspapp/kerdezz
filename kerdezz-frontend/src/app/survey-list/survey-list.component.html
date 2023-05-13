@@ -11,21 +11,40 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let survey of surveys" (click)="goToEditSurvey(survey.id)" class="clickable">
-      <td>{{survey.name}}</td>
-      <td>{{survey.anonymous ? 'Igen' : 'Nem'}}</td>
-      <td>{{survey.multiCompletion ? 'Egyszeri' : 'Többszöri'}}</td>
-      <td>
-        <ng-container [ngSwitch]="survey.visibility">
-          <i *ngSwitchCase="'public'" class="bi-unlock-fill"></i>
-          <i *ngSwitchCase="'invite_only'" class="bi-lock-fill"></i>
-          <i *ngSwitchCase="'private'" class="bi-eye-slash-fill"></i>
-        </ng-container>
-      </td>
-      <td>
-        <button (click)="goToFillSurvey(survey.id, $event)" class="btn btn-outline-dark">Kitöltöm</button>
-      </td>
-    </tr>
+    <ng-container *ngFor="let survey of surveys">
+      <tr *ngIf="survey.editable; else notEditableRow" (click)="goToEditSurvey(survey.id)" [class.clickable]="survey.editable">
+        <td>{{survey.name}}</td>
+        <td>{{survey.anonymous ? 'Igen' : 'Nem'}}</td>
+        <td>{{survey.multiCompletion ? 'Egyszeri' : 'Többszöri'}}</td>
+        <td>
+          <ng-container [ngSwitch]="survey.visibility">
+            <i *ngSwitchCase="'public'" class="bi-unlock-fill"></i>
+            <i *ngSwitchCase="'invite_only'" class="bi-lock-fill"></i>
+            <i *ngSwitchCase="'private'" class="bi-eye-slash-fill"></i>
+          </ng-container>
+        </td>
+        <td>
+          <button (click)="goToFillSurvey(survey.id, $event)" class="btn btn-outline-dark">Kitöltöm</button>
+        </td>
+      </tr>
+      <ng-template #notEditableRow>
+        <tr>
+          <td>{{survey.name}}</td>
+          <td>{{survey.anonymous ? 'Igen' : 'Nem'}}</td>
+          <td>{{survey.multiCompletion ? 'Egyszeri' : 'Többszöri'}}</td>
+          <td>
+            <ng-container [ngSwitch]="survey.visibility">
+              <i *ngSwitchCase="'public'" class="bi-unlock-fill"></i>
+              <i *ngSwitchCase="'invite_only'" class="bi-lock-fill"></i>
+              <i *ngSwitchCase="'private'" class="bi-eye-slash-fill"></i>
+            </ng-container>
+          </td>
+          <td>
+            <button (click)="goToFillSurvey(survey.id, $event)" class="btn btn-outline-dark">Kitöltöm</button>
+          </td>
+        </tr>
+      </ng-template>
+    </ng-container>
     </tbody>
   </table>
 </div>

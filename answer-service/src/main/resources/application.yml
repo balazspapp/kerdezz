@@ -2,7 +2,7 @@
 server:
   port: 8083
 template-service-url: http://template-service/api/templates
-
+auth-server-uri: http://localhost:8181
 # Spring security
 spring:
   application:
@@ -11,7 +11,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8181/realms/kerdezz-realm
+          issuer-uri: ${auth-server-uri}/realms/kerdezz-realm
       client:
         registration:
           answer-service-client-credentials:
@@ -23,7 +23,7 @@ spring:
             scope: template.read
         provider:
           auth-server:
-            issuer-uri: http://localhost:8181/realms/kerdezz-realm
+            issuer-uri: ${auth-server-uri}/realms/kerdezz-realm
   data:
     mongodb:
       host: 127.0.0.1
