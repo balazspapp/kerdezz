@@ -14,7 +14,7 @@ data class SurveyDto(
   val visibility: Visibility,
   val questions: List<QuestionDto>?,
   val editable: Boolean = false,
-  val invitedUsers: List<String>?
+  val allowedEmails: List<String>?
 )
 
 fun SurveyDto.mapDtoToSurvey(user: String): Survey {
@@ -27,7 +27,7 @@ fun SurveyDto.mapDtoToSurvey(user: String): Survey {
     isMultiple = this.multiCompletion,
     visibility = this.visibility,
     questions = this.questions?.map { it.mapToQuestion() } ?: listOf(),
-    invitedUsers = if (this.visibility == Visibility.invite_only) this.invitedUsers else null
+    allowedEmails = if (this.visibility == Visibility.invite_only) this.allowedEmails else null
   )
 }
 
@@ -55,7 +55,7 @@ fun Survey.mapSurveyToDto(editable: Boolean): SurveyDto {
     this.visibility,
     this.questions.map { it.mapQuestionToDto() },
     editable,
-    if (visibility == Visibility.invite_only) this.invitedUsers else null
+    if (visibility == Visibility.invite_only) this.allowedEmails else null
   )
 }
 

@@ -1,4 +1,4 @@
-export interface Survey {
+export class Survey {
   id?: string;
   name: string;
   anonymous: boolean;
@@ -7,6 +7,7 @@ export interface Survey {
   createdAt?: Date;
   updatedAt?: Date;
   questions: Question[];
+  allowedEmails: string[] = [];
 }
 
 export interface Question {

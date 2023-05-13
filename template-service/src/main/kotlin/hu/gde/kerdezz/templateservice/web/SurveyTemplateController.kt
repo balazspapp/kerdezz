@@ -34,8 +34,8 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
         }
     }
 
-    val invitedUsers = if (request.visibility == Visibility.invite_only) request.invitedUsers else null
-    val survey = request.mapDtoToSurvey(currentUser).copy(invitedUsers = invitedUsers)
+    val invitedUsers = if (request.visibility == Visibility.invite_only) request.allowedEmails else null
+    val survey = request.mapDtoToSurvey(currentUser).copy(allowedEmails = invitedUsers)
     surveyRepository.save(survey)
     return ResponseEntity.ok().build()
   }

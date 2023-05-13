@@ -32,7 +32,7 @@ export class SurveyEditorComponent {
           console.error(error);
         },
         complete: () => {
-          console.log("saved complete");
+          console.log("get survey complete");
         }
       });
     } else {
@@ -69,6 +69,22 @@ export class SurveyEditorComponent {
   resetQuestion() {
     this.newQuestion = getNewQuestion();
   }
+
+  addEmail() {
+    if (!this.survey.allowedEmails) {
+      this.survey.allowedEmails = [];
+    }
+    this.survey.allowedEmails.push('');
+  }
+
+  removeEmail(index: number) {
+    this.survey.allowedEmails.splice(index, 1);
+  }
+
+  trackByFn(index: number): number {
+    return index;
+  }
+
 }
 
 function getNewQuestion(): Question {
@@ -88,6 +104,7 @@ function getNewSurvey() {
     anonymous: false,
     multiCompletion: false,
     visibility: 'public',
-    questions: [getNewQuestion()]
+    questions: [getNewQuestion()],
+    allowedEmails: []
   };
 }

@@ -15,7 +15,7 @@ data class Survey(
   val isMultiple: Boolean,
   val visibility: Visibility,
   val questions: List<Question>,
-  val invitedUsers: List<String>?
+  val allowedEmails: List<String>?
 )
 
 data class Question(

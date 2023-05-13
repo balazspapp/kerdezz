@@ -32,6 +32,6 @@ export class SurveyTemplateService {
 
   getSurvey(id: string): Observable<Survey> {
     const url = `${this.baseUrl}/${id}`;
-    return this.http.get<any>(url);
+    return this.http.get<Survey>(url);
   }
 }

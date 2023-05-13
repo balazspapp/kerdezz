@@ -27,6 +27,26 @@
       <label for="anonymous-selector">Anonim válaszadás</label>
       <input type="checkbox" class="form-check-input" id="anonymous-selector" [(ngModel)]="survey.anonymous" name="anonynous">
     </div>
+    <div class="row p-3" *ngIf="survey.visibility === 'invite_only'">
+      <div class="col-auto">
+        <label>E-mail címek:</label>
+      </div>
+      <div class="form-group">
+        <div class="row py-1" *ngFor="let item of survey.allowedEmails; let i = index; trackBy: trackByFn">
+          <div class="col-11">
+            <input type="email" class="form-control" [(ngModel)]="survey.allowedEmails[i]" id="allowed-email-{{i}}" placeholder="E-mail cím">
+          </div>
+          <div class="col-1">
+            <button class="btn btn-close" (click)="removeEmail(i)"></button>
+          </div>
+        </div>
+        <div class="row py-1">
+          <div class="col-3">
+            <button class="btn btn-light rounded-0" (click)="addEmail()"><i class="bi bi-arrow-return-right" (click)="addEmail()"></i>Email hozzáadása</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <div *ngFor="let question of survey.questions; let i=index" class="card p-3 mx-2 my-3 shadow-sm">
