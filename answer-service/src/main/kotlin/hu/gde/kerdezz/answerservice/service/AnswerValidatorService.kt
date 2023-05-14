@@ -1,25 +1,16 @@
 package hu.gde.kerdezz.answerservice.service
 
-import hu.gde.kerdezz.answerservice.dto.Question
-import hu.gde.kerdezz.answerservice.dto.QuestionType
-import hu.gde.kerdezz.answerservice.dto.SurveyTemplate
-import hu.gde.kerdezz.answerservice.dto.AnswerDto
-import hu.gde.kerdezz.answerservice.dto.SurveyAnswerDto
+import hu.gde.kerdezz.answerservice.dto.*
 import org.apache.commons.validator.routines.EmailValidator
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
 
 @Service
-class AnswerValidatorService(
-  @Autowired private val surveyTemplateService: SurveyTemplateService
-) {
+class AnswerValidatorService {
 
-  fun validate(surveyAnswer: SurveyAnswerDto): Boolean {
-    val surveyTemplate = surveyTemplateService.getSurveyById(surveyAnswer.surveyId)
-
-    if (isAllRequiredQuestionsAnswered(surveyTemplate, surveyAnswer) == false) {
+  fun validate(surveyAnswer: SurveyAnswerDto, surveyTemplate: SurveyTemplate): Boolean {
+    if (isAllRequiredQuestionsAnswered(surveyTemplate, surveyAnswer.answers) == false) {
       return false
     }
 
@@ -31,8 +22,8 @@ class AnswerValidatorService(
 
   private fun isAllRequiredQuestionsAnswered(
     surveyTemplate: SurveyTemplate,
-    surveyAnswer: SurveyAnswerDto
-  ) = surveyTemplate.questions?.all { !it.required || surveyAnswer.answers.any { answer -> answer.questionId == it.id } }
+    answerDtos: List<AnswerDto>
+  ) = surveyTemplate.questions?.all { !it.required || answerDtos.any { answer -> answer.questionId == it.id } }
 
   private fun validateAnswer(answer: AnswerDto, question: Question): Boolean {
     return when (question.questionType) {

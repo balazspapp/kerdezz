@@ -13,6 +13,7 @@ import { QuestionEditorComponent } from './question-editor/question-editor.compo
 import { AnswerOptionsComponent } from './answer-options/answer-options.component';
 import { FillSurveyComponent } from './fill-survey/fill-survey.component';
 import { AnswerListComponent } from './answer-list/answer-list.component';
+import {LocalDatetimePipe} from "./util/local-datetime.pipe";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AnswerListComponent } from './answer-list/answer-list.component';
     QuestionEditorComponent,
     AnswerOptionsComponent,
     FillSurveyComponent,
-    AnswerListComponent
+    AnswerListComponent,
+    LocalDatetimePipe
   ],
   imports: [
     BrowserModule,

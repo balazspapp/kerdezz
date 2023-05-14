@@ -89,17 +89,19 @@
       <ng-template ngbNavContent>
         <span>válaszok</span>
         <div class="row align-items-center">
-          <div class="col-auto" (click)="prevResponse()">
+          <button class="btn btn-link col-auto" (click)="prevResponse()" [disabled]="responses[0].id === selectedResponse.id">
             <i class="bi bi-caret-left-fill clickable"></i>
-          </div>
+          </button>
           <div class="col-auto">
             <select class="form-select" [(ngModel)]="selectedResponseId" (change)="updateResponse()">
-              <option *ngFor="let response of responses" [value]="response.id">{{response.id}}</option>
+              <option *ngFor="let response of responses" [value]="response.id">
+                {{response.email ? response.email : 'Ismeretlen'}} - {{response.createdAt | localDatetime}}
+              </option>
             </select>
           </div>
-          <div class="col-auto" (click)="nextResponse()">
+          <button class="btn btn-link col-auto"  (click)="nextResponse()" [disabled]="responses[responses.length-1].id === selectedResponse.id">
             <i class="bi bi-caret-right-fill clickable"></i>
-          </div>
+          </button>
         </div>
         <div *ngFor="let answer of selectedResponse.answers" class="card p-3 my-3 shadow-sm">
           <div class="card-body">
@@ -108,7 +110,7 @@
               <ng-container *ngIf="answer.value; else multiValueBlock">{{answer.value}}</ng-container>
               <ng-template #multiValueBlock>
                 <div class="row">
-                  <span *ngFor="let value of answer.multiValue">{{value}}</span>
+                  <div *ngFor="let value of answer.multiValue">{{value}}</div>
                 </div>
               </ng-template>
             </div>
@@ -116,7 +118,6 @@
         </div>
       </ng-template>
     </ng-container>
-
     <ng-container ngbNavItem>
       <button ngbNavLink>Statisztikák</button>
       <ng-template ngbNavContent>

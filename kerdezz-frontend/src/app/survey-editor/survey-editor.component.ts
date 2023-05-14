@@ -104,6 +104,7 @@ export class SurveyEditorComponent {
     const index = this.responses.findIndex(r => r.id === this.selectedResponse.id);
     if (index > 0) {
       this.selectedResponse = this.responses[index - 1];
+      this.selectedResponseId = this.selectedResponse.id;
     }
   }
 
@@ -111,6 +112,7 @@ export class SurveyEditorComponent {
     const index = this.responses.findIndex(r => r.id === this.selectedResponse.id);
     if (index < this.responses.length - 1) {
       this.selectedResponse = this.responses[index + 1];
+      this.selectedResponseId = this.selectedResponse.id;
     }
   }
 

@@ -5,17 +5,14 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
 import java.time.LocalDate
 
 internal class AnswerValidatorServiceTest {
   private lateinit var answerValidatorService: AnswerValidatorService
-  private lateinit var surveyTemplateService: SurveyTemplateService
 
   @BeforeEach
   fun setUp() {
-    surveyTemplateService = Mockito.mock(SurveyTemplateService::class.java)
-    answerValidatorService = AnswerValidatorService(surveyTemplateService)
+    answerValidatorService = AnswerValidatorService()
   }
 
   @Test
@@ -45,16 +42,15 @@ internal class AnswerValidatorServiceTest {
       allowedEmails = listOf()
     )
     val surveyAnswer = SurveyAnswerDto(
+      id = null,
       surveyId = "survey_id",
       answers = mutableListOf(
         AnswerDto(questionId = "numberQuestion", value = "2", multiValue = null),
       )
     )
 
-    Mockito.`when`(surveyTemplateService.getSurveyById("survey_id")).thenReturn(surveyTemplate)
-
     // Act
-    val result = answerValidatorService.validate(surveyAnswer)
+    val result = answerValidatorService.validate(surveyAnswer, surveyTemplate)
 
     // Assert
     assertTrue(result)
@@ -68,10 +64,8 @@ internal class AnswerValidatorServiceTest {
     val answers = surveyAnswer.answers as MutableList // Remove answer for the required question
     answers.removeAt(0);
 
-    Mockito.`when`(surveyTemplateService.getSurveyById("survey_id")).thenReturn(surveyTemplate)
-
     // Act
-    val result = answerValidatorService.validate(surveyAnswer)
+    val result = answerValidatorService.validate(surveyAnswer, surveyTemplate)
 
     // Assert
     assertFalse(result)
@@ -159,6 +153,7 @@ internal class AnswerValidatorServiceTest {
 
   fun createSurveyAnswer(): SurveyAnswerDto {
     return SurveyAnswerDto(
+      id = null,
       surveyId = "survey_id",
       answers = mutableListOf(
         AnswerDto(questionId = "question_1", value = "Red", multiValue = null),

@@ -7,6 +7,7 @@ import java.time.Instant
 data class SurveyAnswer(
   val id: String?,
   val owner: String,
+  val email: String?,
   val createdDate: Instant = Instant.now(),
   val surveyId: String,
   val answers: List<Answer>
