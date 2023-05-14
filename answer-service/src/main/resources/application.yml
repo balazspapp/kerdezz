@@ -29,6 +29,13 @@ spring:
       host: 127.0.0.1
       port: 27017
       database: answerdb
+  cloud:
+    stream:
+      bindings:
+        surveyAnswerSupplier-out-0:
+          destination: surveyAnswerTopic
+          group: surveyAnswerGroup
+
 # Logging
 logging:
   level:

@@ -8,12 +8,14 @@ import hu.gde.kerdezz.answerservice.repository.SurveyAnswerRepository
 import hu.gde.kerdezz.answerservice.security.getCurrentUser
 import hu.gde.kerdezz.answerservice.security.getCurrentUserInfo
 import org.slf4j.LoggerFactory
+import org.springframework.cloud.stream.function.StreamBridge
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 
 @Service
 class SurveyAnswerService(
+  private val streamBridge: StreamBridge,
   private val templateService: SurveyTemplateService,
   private val surveyAnswerRepository: SurveyAnswerRepository,
   private val answerValidatorService: AnswerValidatorService
@@ -23,6 +25,7 @@ class SurveyAnswerService(
   fun save(surveyAnswerDto: SurveyAnswerDto) {
     val surveyTemplate = templateService.getSurveyById(surveyAnswerDto.surveyId)
     validateAnswer(surveyAnswerDto, surveyTemplate)
+    this.streamBridge.send("surveyAnswerSupplier-out-0", surveyAnswerDto)
     surveyAnswerRepository.save(mapDtoWithUser(surveyAnswerDto, getCurrentUserInfo(surveyTemplate.anonymous)))
   }
 
