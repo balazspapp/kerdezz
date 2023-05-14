@@ -28,7 +28,7 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
     if (request.id != null) {
       surveyRepository.findById(request.id)
         .ifPresent {
-          if (it.user != currentUser) {
+          if (it.owner != currentUser) {
             throw ResponseStatusException(HttpStatus.FORBIDDEN, "have no permissions to update")
           }
         }
@@ -46,12 +46,10 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
     val pageSize = 10
     val currentUser = getCurrentUser()
     surveyRepository.findAll(PageRequest.of(page, pageSize))
-    val surveys = surveyRepository.findByVisibilityOrUser(Visibility.public, currentUser, PageRequest.of(page, pageSize))
+    val surveys = surveyRepository.findByVisibilityOrOwner(Visibility.public, currentUser, PageRequest.of(page, pageSize))
     val dtos = surveys.map { it.mapSurveyToDto(isSurveyEditable(it, currentUser)) }
     return ResponseEntity.ok(dtos)
   }
-
-  private fun isSurveyEditable(it: Survey, currentUser: String) = it.user == currentUser
 
   @GetMapping("/{id}")
   fun getTemplate(@PathVariable id: String): ResponseEntity<SurveyDto> {
@@ -60,6 +58,8 @@ class SurveyTemplateController(val surveyRepository: SurveyRepository) {
     return survey.map { ResponseEntity.ok(it.mapSurveyToDto(false)) }
       .orElse(ResponseEntity.notFound().build())
   }
+
+  private fun isSurveyEditable(it: Survey, currentUser: String) = it.owner == currentUser
 }
 
 fun getCurrentUser(): String {

@@ -1,64 +1,130 @@
-<div class="card p-3 mx-2 mb-4 shadow-sm">
-  <div class="form-group">
-    <input type="text" class="form-control survey-title" id="survey-name" [(ngModel)]="survey.name"
-           placeholder="Kérdőív neve" name="survey-name">
-  </div>
-  <div class="row p-3">
-    <div class="col-auto">
-      <label for="multi-completion-selector">Kitölthetőség:</label>
-    </div>
-    <div class="col-auto">
-      <select class="form-select" id="multi-completion-selector" [(ngModel)]="survey.multiCompletion" name="multi-completion">
-        <option value="true">Egyszeri kitöltés</option>
-        <option value="false">Többszöri kitöltés</option>
-      </select>
-    </div>
-    <div class="col-auto">
-      <label for="visibility-selector">Hozzáférési jogok:</label>
-    </div>
-    <div class="col-auto">
-      <select class="form-select" id="visibility-selector" [(ngModel)]="survey.visibility" name="visibility">
-        <option value="public">Nyilvános</option>
-        <option value="invite_only">Korlátozott</option>
-        <option value="private">Privát</option>
-      </select>
-    </div>
-    <div class="form-check col-2">
-      <label for="anonymous-selector">Anonim válaszadás</label>
-      <input type="checkbox" class="form-check-input" id="anonymous-selector" [(ngModel)]="survey.anonymous" name="anonynous">
-    </div>
-    <div class="row p-3" *ngIf="survey.visibility === 'invite_only'">
-      <div class="col-auto">
-        <label>E-mail címek:</label>
-      </div>
-      <div class="form-group">
-        <div class="row py-1" *ngFor="let item of survey.allowedEmails; let i = index; trackBy: trackByFn">
-          <div class="col-11">
-            <input type="email" class="form-control" [(ngModel)]="survey.allowedEmails[i]" id="allowed-email-{{i}}" placeholder="E-mail cím">
-          </div>
-          <div class="col-1">
-            <button class="btn btn-close" (click)="removeEmail(i)"></button>
-          </div>
+<div class="container mb-2">
+  <div class="row justify-content-center">
+    <div class="col shadow p-4 ">
+      <div class="row justify-content-between">
+        <div class="col">
+          <input type="text" class="form-control survey-title" id="survey-name" [(ngModel)]="survey.name"
+                 placeholder="Kérdőív neve" name="survey-name">
         </div>
-        <div class="row py-1">
-          <div class="col-3">
-            <button class="btn btn-light rounded-0" (click)="addEmail()"><i class="bi bi-arrow-return-right" (click)="addEmail()"></i>Email hozzáadása</button>
+        <div class="col-auto">
+          <div class="align-middle">
+            <button class="btn btn-lg btn-primary rounded-0 align-middle" (click)="saveSurvey()">Mentés</button>
           </div>
         </div>
       </div>
+      <div class="row p-3">
+        <div class="col-auto">
+          <label for="multi-completion-selector">Kitölthetőség:</label>
+        </div>
+        <div class="col-auto">
+          <select class="form-select" id="multi-completion-selector" [(ngModel)]="survey.multiCompletion" name="multi-completion">
+            <option value="true">Egyszeri kitöltés</option>
+            <option value="false">Többszöri kitöltés</option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <label for="visibility-selector">Hozzáférési jogok:</label>
+        </div>
+        <div class="col-auto">
+          <select class="form-select" id="visibility-selector" [(ngModel)]="survey.visibility" name="visibility">
+            <option value="public">Nyilvános</option>
+            <option value="invite_only">Korlátozott</option>
+            <option value="private">Privát</option>
+          </select>
+        </div>
+        <div class="form-check col-2">
+          <label for="anonymous-selector">Anonim válaszadás</label>
+          <input type="checkbox" class="form-check-input" id="anonymous-selector" [(ngModel)]="survey.anonymous" name="anonynous">
+        </div>
+        <div class="row p-3" *ngIf="survey.visibility === 'invite_only'">
+          <div class="col-auto">
+            <label>E-mail címek:</label>
+          </div>
+          <div class="form-group">
+            <div class="row py-1" *ngFor="let item of survey.allowedEmails; let i = index; trackBy: trackByFn">
+              <div class="col-11">
+                <input type="email" class="form-control" [(ngModel)]="survey.allowedEmails[i]" id="allowed-email-{{i}}" placeholder="E-mail cím">
+              </div>
+              <div class="col-1">
+                <button class="btn btn-close" (click)="removeEmail(i)"></button>
+              </div>
+            </div>
+            <div class="row py-1">
+              <div class="col-3">
+                <button class="btn btn-light rounded-0" (click)="addEmail()"><i class="bi bi-arrow-return-right" (click)="addEmail()"></i>Email hozzáadása</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div *ngFor="let question of survey.questions; let i=index" class="card p-3 mx-2 my-3 shadow-sm">
-  <app-question-editor [question]="question"></app-question-editor>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end my-2">
-    <button type="button" class="btn btn-danger rounded-circle" (click)="removeQuestion(i)">
-      <i class="bi bi-trash"></i>
-    </button>
   </div>
 </div>
 
-<div class="d-grid gap-2 d-md-flex justify-content-md-end p-1">
-  <i class="bi bi-plus-circle-fill fs-1 text-info clickable" (click)="addQuestion()"></i>
+<div class="container">
+  <nav ngbNav #nav="ngbNav" class="nav-tabs">
+    <ng-container ngbNavItem>
+      <button ngbNavLink>Kérdések</button>
+      <ng-template ngbNavContent>
+        <div class="mb-4">
+          <div *ngFor="let question of survey.questions; let i=index" class="card p-3 my-3 shadow-sm">
+            <app-question-editor [question]="question"></app-question-editor>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end my-2">
+              <div>
+                <button type="button" class="btn btn-danger rounded-circle" (click)="removeQuestion(i)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end p-1">
+            <i class="bi bi-plus-circle-fill fs-1 text-info clickable" (click)="addQuestion()"></i>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <ng-container ngbNavItem [disabled]="!answersLoaded">
+      <button ngbNavLink>Válaszok</button>
+      <ng-template ngbNavContent>
+        <span>válaszok</span>
+        <div class="row align-items-center">
+          <div class="col-auto" (click)="prevResponse()">
+            <i class="bi bi-caret-left-fill clickable"></i>
+          </div>
+          <div class="col-auto">
+            <select class="form-select" [(ngModel)]="selectedResponseId" (change)="updateResponse()">
+              <option *ngFor="let response of responses" [value]="response.id">{{response.id}}</option>
+            </select>
+          </div>
+          <div class="col-auto" (click)="nextResponse()">
+            <i class="bi bi-caret-right-fill clickable"></i>
+          </div>
+        </div>
+        <div *ngFor="let answer of selectedResponse.answers" class="card p-3 my-3 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{questionMap[answer.questionId]}}</h5>
+            <div class="card-text">
+              <ng-container *ngIf="answer.value; else multiValueBlock">{{answer.value}}</ng-container>
+              <ng-template #multiValueBlock>
+                <div class="row">
+                  <span *ngFor="let value of answer.multiValue">{{value}}</span>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <ng-container ngbNavItem>
+      <button ngbNavLink>Statisztikák</button>
+      <ng-template ngbNavContent>
+        <p>
+          Ide jönnek a statok
+        </p>
+      </ng-template>
+    </ng-container>
+  </nav>
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
 </div>
-<button class="btn btn-lg btn-primary rounded-0" (click)="saveSurvey()">Mentés</button>

@@ -8,5 +8,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
 
 
 interface SurveyRepository : MongoRepository<Survey, String> {
-  fun findByVisibilityOrUser(visibility: Visibility, user: String, pageable: Pageable): Page<Survey>
+  fun findByVisibilityOrOwner(visibility: Visibility, owner: String, pageable: Pageable): Page<Survey>
 }

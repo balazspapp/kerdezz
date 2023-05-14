@@ -33,27 +33,56 @@ internal class SurveyDtoKtTest {
   )
 
   @Test
-  fun mapDtoToSurvey() {
+  fun mapDtoToSurvey_invite_only() {
     val surveyDto = SurveyDto(
       id = null,
+      owner = null,
       name = "Name",
       anonymous = false,
       multiCompletion = false,
-      visibility = Visibility.private,
+      visibility = Visibility.invite_only,
       text = "text",
-      questions = listOf(questionDto)
+      questions = listOf(questionDto),
+      allowedEmails = listOf("email 1", "email 2")
     )
     val expected = Survey(
       id = null,
-      user = "userid",
+      owner = "userid",
       name = "Name",
       isAnonymous = false,
       isMultiple = false,
       visibility = Visibility.private,
       text = "text",
-      questions = listOf(question)
+      questions = listOf(question),
+      allowedEmails = listOf("email 1", "email 2")
     )
+  }
 
+
+  @Test
+  fun mapDtoToSurvey_private() {
+    val surveyDto = SurveyDto(
+      id = null,
+      owner = null,
+      name = "Name",
+      anonymous = false,
+      multiCompletion = false,
+      visibility = Visibility.private,
+      text = "text",
+      questions = listOf(questionDto),
+      allowedEmails = listOf("email 1", "email 2")
+    )
+    val expected = Survey(
+      id = null,
+      owner = "userid",
+      name = "Name",
+      isAnonymous = false,
+      isMultiple = false,
+      visibility = Visibility.private,
+      text = "text",
+      questions = listOf(question),
+      allowedEmails = null
+    )
     val actual = surveyDto.mapDtoToSurvey("userid")
 
     assertEquals(expected, actual)

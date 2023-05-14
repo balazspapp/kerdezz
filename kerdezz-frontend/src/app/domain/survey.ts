@@ -4,8 +4,6 @@ export class Survey {
   anonymous: boolean;
   multiCompletion: boolean;
   visibility: string;
-  createdAt?: Date;
-  updatedAt?: Date;
   questions: Question[];
   allowedEmails: string[] = [];
 }

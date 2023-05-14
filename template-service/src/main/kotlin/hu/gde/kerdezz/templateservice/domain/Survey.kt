@@ -7,7 +7,7 @@ import java.time.LocalDate
 @Document("surveyTemplates")
 data class Survey(
   val id: String?,
-  val user: String,
+  val owner: String,
   val createdAt: Instant = Instant.now(),
   val name: String,
   val text: String?,

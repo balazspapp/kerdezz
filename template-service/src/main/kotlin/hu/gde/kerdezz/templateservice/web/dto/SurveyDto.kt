@@ -7,6 +7,7 @@ import java.util.UUID
 
 data class SurveyDto(
   val id: String?,
+  val owner: String?,
   val name: String,
   val text: String?,
   val anonymous: Boolean,
@@ -17,10 +18,10 @@ data class SurveyDto(
   val allowedEmails: List<String>?
 )
 
-fun SurveyDto.mapDtoToSurvey(user: String): Survey {
+fun SurveyDto.mapDtoToSurvey(owner: String): Survey {
   return Survey(
     id = this.id,
-    user = user,
+    owner = owner,
     name = this.name,
     text = this.text,
     isAnonymous = this.anonymous,
@@ -48,6 +49,7 @@ fun QuestionDto.mapToQuestion(): Question {
 fun Survey.mapSurveyToDto(editable: Boolean): SurveyDto {
   return SurveyDto(
     this.id,
+    this.owner,
     this.name,
     this.text,
     this.isAnonymous,

@@ -1,8 +1,6 @@
 package hu.gde.kerdezz.answerservice.service
 
-import hu.gde.kerdezz.answerservice.domain.*
-import hu.gde.kerdezz.answerservice.dto.AnswerDto
-import hu.gde.kerdezz.answerservice.dto.SurveyAnswerRequest
+import hu.gde.kerdezz.answerservice.dto.*
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -25,6 +23,7 @@ internal class AnswerValidatorServiceTest {
     // Arrange
     val surveyTemplate = SurveyTemplate(
       id = "survey_id",
+      owner = "owner id",
       name = "Example Survey",
       text = "This is an example survey.",
       anonymous = true,
@@ -42,9 +41,10 @@ internal class AnswerValidatorServiceTest {
           minDate = null,
           maxDate = null
         )
-      )
+      ),
+      allowedEmails = listOf()
     )
-    val surveyAnswer = SurveyAnswerRequest(
+    val surveyAnswer = SurveyAnswerDto(
       surveyId = "survey_id",
       answers = mutableListOf(
         AnswerDto(questionId = "numberQuestion", value = "2", multiValue = null),
@@ -140,6 +140,7 @@ internal class AnswerValidatorServiceTest {
   fun createSurveyTemplate(): SurveyTemplate {
     return SurveyTemplate(
       id = "survey_id",
+      owner = "owner id",
       name = "Example Survey",
       text = "This is an example survey.",
       anonymous = true,
@@ -151,12 +152,13 @@ internal class AnswerValidatorServiceTest {
         dateQuestion,
         numberQuestion,
         dateQuestion2
-      )
+      ),
+      allowedEmails = listOf()
     )
   }
 
-  fun createSurveyAnswer(): SurveyAnswerRequest {
-    return SurveyAnswerRequest(
+  fun createSurveyAnswer(): SurveyAnswerDto {
+    return SurveyAnswerDto(
       surveyId = "survey_id",
       answers = mutableListOf(
         AnswerDto(questionId = "question_1", value = "Red", multiValue = null),

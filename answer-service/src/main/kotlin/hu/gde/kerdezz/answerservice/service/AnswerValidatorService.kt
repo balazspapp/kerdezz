@@ -1,10 +1,10 @@
 package hu.gde.kerdezz.answerservice.service
 
-import hu.gde.kerdezz.answerservice.domain.Question
-import hu.gde.kerdezz.answerservice.domain.QuestionType
-import hu.gde.kerdezz.answerservice.domain.SurveyTemplate
+import hu.gde.kerdezz.answerservice.dto.Question
+import hu.gde.kerdezz.answerservice.dto.QuestionType
+import hu.gde.kerdezz.answerservice.dto.SurveyTemplate
 import hu.gde.kerdezz.answerservice.dto.AnswerDto
-import hu.gde.kerdezz.answerservice.dto.SurveyAnswerRequest
+import hu.gde.kerdezz.answerservice.dto.SurveyAnswerDto
 import org.apache.commons.validator.routines.EmailValidator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -16,7 +16,7 @@ class AnswerValidatorService(
   @Autowired private val surveyTemplateService: SurveyTemplateService
 ) {
 
-  fun validate(surveyAnswer: SurveyAnswerRequest): Boolean {
+  fun validate(surveyAnswer: SurveyAnswerDto): Boolean {
     val surveyTemplate = surveyTemplateService.getSurveyById(surveyAnswer.surveyId)
 
     if (isAllRequiredQuestionsAnswered(surveyTemplate, surveyAnswer) == false) {
@@ -31,7 +31,7 @@ class AnswerValidatorService(
 
   private fun isAllRequiredQuestionsAnswered(
     surveyTemplate: SurveyTemplate,
-    surveyAnswer: SurveyAnswerRequest
+    surveyAnswer: SurveyAnswerDto
   ) = surveyTemplate.questions?.all { !it.required || surveyAnswer.answers.any { answer -> answer.questionId == it.id } }
 
   private fun validateAnswer(answer: AnswerDto, question: Question): Boolean {

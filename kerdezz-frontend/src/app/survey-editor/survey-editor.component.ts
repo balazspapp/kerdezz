@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {SurveyTemplateService} from "../service/survey-template.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Question, Survey} from "../domain/survey";
+import {AnswerService} from "../service/answer.service";
 
 @Component({
   selector: 'app-edit-survey',
@@ -11,9 +12,15 @@ import {Question, Survey} from "../domain/survey";
 export class SurveyEditorComponent {
   survey: Survey = getNewSurvey();
   newQuestion: Question = getNewQuestion();
+  responses: any[] = [];
+  selectedResponse: any = {};
+  questionMap: { [id: string]: string } = {};
+  selectedResponseId: string | null;
+  answersLoaded = false;
 
   constructor(
     private surveyService: SurveyTemplateService,
+    private answerService: AnswerService,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -23,18 +30,8 @@ export class SurveyEditorComponent {
     let surveyId = this.route.snapshot.paramMap.get('id');
     console.log('surveyId: {}', surveyId);
     if (surveyId) {
-      this.surveyService.getSurvey(surveyId).subscribe({
-        next: (survey) => {
-          console.log(survey);
-          this.survey = survey;
-        },
-        error: (error) => {
-          console.error(error);
-        },
-        complete: () => {
-          console.log("get survey complete");
-        }
-      });
+      this.fetchSurvey(surveyId);
+      this.loadResponses(surveyId);
     } else {
       this.survey = getNewSurvey()
     }
@@ -85,6 +82,55 @@ export class SurveyEditorComponent {
     return index;
   }
 
+  loadResponses(surveyId: string) {
+    console.log("fetch answers")
+    this.answerService.fetchAnswers(surveyId).subscribe(value => {
+      console.log('responses = ', JSON.stringify(value));
+      this.responses = value;
+      if (this.responses.length > 0) {
+        this.selectedResponse = this.responses[0];
+        this.selectedResponseId = this.selectedResponse.id;
+        this.answersLoaded = true;
+        console.log(JSON.stringify(this.selectedResponse));
+      }
+    });
+  }
+
+  updateResponse() {
+    this.selectedResponse = this.responses.find(r => r.id === this.selectedResponseId);
+  }
+
+  prevResponse() {
+    const index = this.responses.findIndex(r => r.id === this.selectedResponse.id);
+    if (index > 0) {
+      this.selectedResponse = this.responses[index - 1];
+    }
+  }
+
+  nextResponse() {
+    const index = this.responses.findIndex(r => r.id === this.selectedResponse.id);
+    if (index < this.responses.length - 1) {
+      this.selectedResponse = this.responses[index + 1];
+    }
+  }
+
+  private fetchSurvey(surveyId: string) {
+    this.surveyService.getSurvey(surveyId).subscribe({
+      next: (survey) => {
+        console.log(survey);
+        this.survey = survey;
+        this.survey.questions.forEach(question => {
+          this.questionMap[question.id || ''] = question.questionText || '';
+        });
+      },
+      error: (error) => {
+        console.error(error);
+      },
+      complete: () => {
+        console.log("get survey complete");
+      }
+    });
+  }
 }
 
 function getNewQuestion(): Question {

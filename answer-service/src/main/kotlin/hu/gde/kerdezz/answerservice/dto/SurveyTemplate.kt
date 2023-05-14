@@ -1,35 +1,14 @@
-package hu.gde.kerdezz.answerservice.domain
-
-import java.time.LocalDate
+package hu.gde.kerdezz.answerservice.dto
 
 data class SurveyTemplate(
   val id: String?,
+  val owner: String,
   val name: String,
   val text: String?,
   val anonymous: Boolean,
   val multiCompletion: Boolean,
   val visibility: Visibility,
-  val questions: List<Question>?
+  val questions: List<Question>?,
+  val allowedEmails: List<String>?
 )
 
-data class Question(
-  val id: String?,
-  val required: Boolean = false,
-  val questionText: String,
-  val questionType: QuestionType,
-  val options: List<Option>?,
-  val minValue: Int?,
-  val maxValue: Int?,
-  val minDate: LocalDate?,
-  val maxDate: LocalDate?
-)
-
-data class Option (val value: String)
-
-enum class QuestionType {
-  SIMPLE_CHOICE, MULTI_CHOICE, OPEN_TEXT, DATE, NUMBER, EMAIL
-}
-
-enum class Visibility {
-  public, invite_only, private
-}

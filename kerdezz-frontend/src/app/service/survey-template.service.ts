@@ -34,4 +34,5 @@ export class SurveyTemplateService {
     const url = `${this.baseUrl}/${id}`;
     return this.http.get<Survey>(url);
   }
+
 }
