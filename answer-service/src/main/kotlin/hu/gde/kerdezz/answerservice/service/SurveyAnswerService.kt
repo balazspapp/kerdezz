@@ -1,7 +1,6 @@
 package hu.gde.kerdezz.answerservice.service
 
-import hu.gde.kerdezz.answerservice.dto.SurveyAnswerDto
-import hu.gde.kerdezz.answerservice.dto.SurveyTemplate
+import hu.gde.kerdezz.answerservice.dto.*
 import hu.gde.kerdezz.answerservice.mappers.mapDtoWithUser
 import hu.gde.kerdezz.answerservice.mappers.surveyAnswerToDto
 import hu.gde.kerdezz.answerservice.repository.SurveyAnswerRepository
@@ -19,17 +18,29 @@ class SurveyAnswerService(
   private val templateService: SurveyTemplateService,
   private val surveyAnswerRepository: SurveyAnswerRepository,
   private val answerValidatorService: AnswerValidatorService
-)  {
+) {
   private val logger = LoggerFactory.getLogger(javaClass)
 
   fun save(surveyAnswerDto: SurveyAnswerDto) {
     val surveyTemplate = templateService.getSurveyById(surveyAnswerDto.surveyId)
     validateAnswer(surveyAnswerDto, surveyTemplate)
-    this.streamBridge.send("surveyAnswerSupplier-out-0", surveyAnswerDto)
+
+    val answerMap: Map<String, AnswerDto> = surveyAnswerDto.answers.associateBy { it.questionId }
+    val statSurveyAnswer = StatSurveyAnswer(
+      surveyId = surveyAnswerDto.surveyId,
+      answers = surveyTemplate.questions.map {
+        StatAnswer(
+          questionId = it.id,
+          type = it.questionType,
+          value = answerMap[it.id]?.value,
+          multiValue = answerMap[it.id]?.multiValue
+        )
+      })
+    this.streamBridge.send("surveyAnswerSupplier-out-0", statSurveyAnswer)
     surveyAnswerRepository.save(mapDtoWithUser(surveyAnswerDto, getCurrentUserInfo(surveyTemplate.anonymous)))
   }
 
-  fun findAllBySurveyId( surveyId: String): List<SurveyAnswerDto> {
+  fun findAllBySurveyId(surveyId: String): List<SurveyAnswerDto> {
     val currentUser = getCurrentUser()
     if (!templateService.isOwnerOfSurvey(currentUser, surveyId)) {
       logger.warn("User {} is not owner of the survey with id {}", currentUser, surveyId)
@@ -42,6 +53,6 @@ class SurveyAnswerService(
     if (!answerValidatorService.validate(surveyAnswerDto, surveyTemplate)) {
       logger.warn("Invalid answer, templateId: {}", surveyAnswerDto.surveyId)
       throw ResponseStatusException(HttpStatus.BAD_REQUEST)
-      }
+    }
   }
 }

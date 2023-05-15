@@ -11,3 +11,15 @@ spring:
         surveyAnswerTopic-in-0:
           destination: surveyAnswerTopic
           group: surveyAnswerGroup
+  datasource:
+    host: ${MSSQL_HOST:localhost}
+    port: ${MSSQL_PORT:1433}
+    database: surveyStatsDb
+    url: jdbc:sqlserver://${spring.datasource.host}:${spring.datasource.port};database=${spring.datasource.database};encrypt=false
+    username: SA
+    password: P4SSw0rd
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
+    hibernate:
+      ddl-auto: update
