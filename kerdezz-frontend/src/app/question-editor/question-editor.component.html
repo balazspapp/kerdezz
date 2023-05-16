@@ -36,8 +36,8 @@
   <input type="date" class="form-control" id="question-max-date" [(ngModel)]="question.maxDate">
 </div>
 
-<div *ngIf="question.questionType === 'SIMPLE_CHOICE' || question.questionType === 'MULTI_CHOICE'"
-     class="form-group">
+<div *ngIf="question.questionType === 'SIMPLE_CHOICE' ||
+ question.questionType === 'MULTI_CHOICE'" class="form-group">
   <label>Válaszlehetőségek:</label>
   <app-answer-options [options]="question.options"></app-answer-options>
 </div>

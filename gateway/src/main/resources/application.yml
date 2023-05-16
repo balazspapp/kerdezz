@@ -9,15 +9,14 @@ spring:
       client:
         registration:
           gateway:
-            provider: my-provider
+            provider: auth-server
             client-id: kerdezz-client
             client-secret: mFu7u0kxmYCfDGRZHdQgNsZJCHSYci25
             authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}"
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: openid, template.read, template.write
-
         provider:
-          my-provider:
+          auth-server:
             issuer-uri: ${auth-server-uri}/realms/kerdezz-realm
   cloud:
     gateway:
@@ -42,7 +41,6 @@ spring:
             - Path=/eureka/**
         - id: redirectToAccount
           uri: ${auth-server-uri}/realms/kerdezz-realm/account/?referrer=kerdezz-client#/
-#          uri: ${auth-server-uri}/realms/kerdezz-realm/protocol/openid-connect/logout?post_logout_redirect_uri=http://localhost:8080&client_id=kerdezz-client
           predicates:
             - Path=/kerdezz/account
           filters:
