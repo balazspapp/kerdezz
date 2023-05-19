@@ -14,6 +14,7 @@ import { AnswerOptionsComponent } from './answer-options/answer-options.componen
 import { FillSurveyComponent } from './fill-survey/fill-survey.component';
 import { AnswerListComponent } from './answer-list/answer-list.component';
 import {LocalDatetimePipe} from "./util/local-datetime.pipe";
+import { SurveyStatsComponent } from './survey-stats/survey-stats.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {LocalDatetimePipe} from "./util/local-datetime.pipe";
     AnswerOptionsComponent,
     FillSurveyComponent,
     AnswerListComponent,
-    LocalDatetimePipe
+    LocalDatetimePipe,
+    SurveyStatsComponent
   ],
   imports: [
     BrowserModule,

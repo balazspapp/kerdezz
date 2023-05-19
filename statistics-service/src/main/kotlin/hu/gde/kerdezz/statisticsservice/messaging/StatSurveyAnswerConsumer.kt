@@ -6,12 +6,14 @@ import jakarta.transaction.Transactional
 import org.slf4j.LoggerFactory
 import java.util.function.Consumer
 
-open class StatSurveyAnswerConsumer(val answerStatsService: AnswerStatsService) : Consumer<StatSurveyAnswer> {
+open class StatSurveyAnswerConsumer(
+  val answerStatsService: AnswerStatsService
+) : Consumer<StatSurveyAnswer> {
   private val logger = LoggerFactory.getLogger(javaClass)
 
   @Transactional
   override fun accept(surveyAnswerDto: StatSurveyAnswer) {
-    logger.info("******************** Received: $surveyAnswerDto")
+    logger.info("Survey answer received, surveyId: {}", surveyAnswerDto.surveyId)
     answerStatsService.generate(surveyAnswerDto)
   }
 }

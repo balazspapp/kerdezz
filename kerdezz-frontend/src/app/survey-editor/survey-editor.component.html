@@ -118,12 +118,14 @@
         </div>
       </ng-template>
     </ng-container>
+
     <ng-container ngbNavItem>
       <button ngbNavLink>Statisztikák</button>
       <ng-template ngbNavContent>
         <p>
           Ide jönnek a statok
         </p>
+        <app-survey-stats [surveyId]=survey.id [questionMap]="questionMap"></app-survey-stats>
       </ng-template>
     </ng-container>
   </nav>

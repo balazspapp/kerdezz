@@ -29,6 +29,10 @@ spring:
           uri: lb://answer-service
           predicates:
             - Path=/api/surveys/**
+        - id: statsService
+          uri: lb://statistics-service
+          predicates:
+            - Path=/api/stats/**
         - id: discoveryServer
           uri: lb://discovery-server
           predicates:

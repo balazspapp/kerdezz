@@ -36,6 +36,12 @@ spring:
           destination: surveyAnswerTopic
           group: surveyAnswerGroup
 
+  rabbitmq:
+    addresses: localhost:5672
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
 # Logging
 logging:
   level:

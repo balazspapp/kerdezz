@@ -13,5 +13,6 @@ import java.util.function.Consumer
 class SurveyAnswerListenerConfig {
 
   @Bean
-  fun surveyAnswerTopic(answerStatsService: AnswerStatsService): Consumer<StatSurveyAnswer> = StatSurveyAnswerConsumer(answerStatsService)
+  fun surveyAnswerTopic(answerStatsService: AnswerStatsService):
+    Consumer<StatSurveyAnswer> = StatSurveyAnswerConsumer(answerStatsService)
 }
